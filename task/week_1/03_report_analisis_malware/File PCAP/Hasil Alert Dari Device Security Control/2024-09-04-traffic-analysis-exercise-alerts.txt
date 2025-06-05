@@ -1,0 +1,97 @@
+------------------------------------------------------------------------
+Count:1 Event#3.1372 First seen: 2024-09-04 17:32 UTC
+ET POLICY Reserved Internal IP Traffic
+172.17.0.99 -> 172.17.0.17
+IPVer=4 hlen=5 tos=0 dlen=112 ID=38358 flags=0 offset=0 ttl=128 chksum=19472
+Protocol: 17 sport=59123 -> dport=53
+
+len=92 chksum=55260
+------------------------------------------------------------------------
+Count:1 Event#3.1373 First seen: 2024-09-04 17:32 UTC
+ET POLICY Reserved Internal IP Traffic
+172.17.0.17 -> 172.17.0.99
+IPVer=4 hlen=5 tos=0 dlen=178 ID=34367 flags=0 offset=0 ttl=128 chksum=23397
+Protocol: 17 sport=53 -> dport=59123
+
+len=158 chksum=2732
+------------------------------------------------------------------------
+Count:25 Event#3.1375 First seen: 2024-09-04 17:32 UTC
+ET DNS Standard query response, Name Error
+172.17.0.17 -> 172.17.0.99
+IPVer=4 hlen=5 tos=0 dlen=142 ID=34379 flags=0 offset=0 ttl=128 chksum=23421
+Protocol: 17 sport=53 -> dport=62363
+
+len=122 chksum=14032
+------------------------------------------------------------------------
+Count:3 Event#3.1377 First seen: 2024-09-04 17:32 UTC
+ET INFO Terse Request for .txt - Likely Hostile
+172.17.0.99 -> 23.220.251.149
+IPVer=4 hlen=5 tos=0 dlen=194 ID=0 flags=0 offset=0 ttl=0 chksum=64080
+Protocol: 6 sport=49766 -> dport=80
+
+Seq=0 Ack=0 Off=5 Res=0 Flags=******** Win=0 urp=4274 chksum=0
+------------------------------------------------------------------------
+Count:2 Event#3.1378 First seen: 2024-09-04 17:32 UTC
+ET INFO Microsoft Connection Test
+172.17.0.99 -> 23.220.251.149
+IPVer=4 hlen=5 tos=0 dlen=194 ID=0 flags=0 offset=0 ttl=0 chksum=64080
+Protocol: 6 sport=49766 -> dport=80
+
+Seq=0 Ack=0 Off=5 Res=0 Flags=******** Win=0 urp=4274 chksum=0
+------------------------------------------------------------------------
+Count:1 Event#3.1383 First seen: 2024-09-04 17:33 UTC
+ET INFO Potentially unsafe SMBv1 protocol in use
+172.17.0.99 -> 172.17.0.17
+IPVer=4 hlen=5 tos=0 dlen=182 ID=38395 flags=2 offset=0 ttl=128 chksum=2992
+Protocol: 6 sport=49769 -> dport=139
+
+Seq=1717508277 Ack=3911304094 Off=5 Res=0 Flags=***AP*** Win=512 urp=38281 chksum=0
+------------------------------------------------------------------------
+Count:10 Event#3.1384 First seen: 2024-09-04 17:33 UTC
+GPL NETBIOS SMB Session Setup NTMLSSP unicode asn1 overflow attempt
+172.17.0.99 -> 172.17.0.17
+IPVer=4 hlen=5 tos=0 dlen=182 ID=38395 flags=2 offset=0 ttl=128 chksum=2992
+Protocol: 6 sport=49769 -> dport=139
+
+Seq=1717508277 Ack=3911304094 Off=5 Res=0 Flags=***AP*** Win=512 urp=38281 chksum=0
+------------------------------------------------------------------------
+Count:5 Event#3.1386 First seen: 2024-09-04 17:33 UTC
+GPL NETBIOS SMB IPC$ unicode share access
+172.17.0.99 -> 172.17.0.17
+IPVer=4 hlen=5 tos=0 dlen=140 ID=38397 flags=2 offset=0 ttl=128 chksum=3032
+Protocol: 6 sport=49769 -> dport=139
+
+Seq=1717508659 Ack=3911304802 Off=5 Res=0 Flags=***AP*** Win=509 urp=57800 chksum=0
+------------------------------------------------------------------------
+Count:10 Event#3.1387 2024-09-04 17:33 UTC
+GPL NETBIOS SMB SMB_COM_TRANSACTION Max Data Count of 0 DOS Attempt
+172.17.0.99 -> 172.17.0.17
+IPVer=4 hlen=5 tos=0 dlen=162 ID=38398 flags=2 offset=0 ttl=128 chksum=3009
+Protocol: 6 sport=49769 -> dport=139
+
+Seq=1717508759 Ack=3911304862 Off=5 Res=0 Flags=***AP*** Win=509 urp=14773 chksum=0
+------------------------------------------------------------------------
+Count:1 Event#3.1456 First seen: 2024-09-04 17:34 UTC
+GPL RPC kerberos principal name overflow TCP
+172.17.0.99 -> 172.17.0.17
+IPVer=4 hlen=5 tos=0 dlen=269 ID=38441 flags=2 offset=0 ttl=128 chksum=2859
+Protocol: 6 sport=49774 -> dport=88
+
+Seq=3174905963 Ack=3538252183 Off=5 Res=0 Flags=***AP*** Win=4100 urp=37547 chksum=0
+------------------------------------------------------------------------
+Count:50 Event#3.1497 First seen: 2024-09-04 17:35 UTC
+ET INFO GENERIC SUSPICIOUS POST to Dotted Quad with Fake Browser 1
+172.17.0.99 -> 79.124.78.197
+IPVer=4 hlen=5 tos=0 dlen=483 ID=0 flags=0 offset=0 ttl=0 chksum=28256
+Protocol: 6 sport=49813 -> dport=80
+
+Seq=0 Ack=0 Off=5 Res=0 Flags=******** Win=0 urp=52730 chksum=0
+------------------------------------------------------------------------
+Count:48 Event#3.1504 First seen: 2024-09-04 17:35 UTC
+ETPRO TROJAN Win32/Koi Stealer CnC Checkin (POST) M2
+172.17.0.99 -> 79.124.78.197
+IPVer=4 hlen=5 tos=0 dlen=429 ID=0 flags=0 offset=0 ttl=0 chksum=28310
+Protocol: 6 sport=49813 -> dport=80
+
+Seq=0 Ack=0 Off=5 Res=0 Flags=******** Win=0 urp=36144 chksum=0
+
