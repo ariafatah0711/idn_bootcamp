@@ -1,10 +1,4 @@
----
-
-title: Brute-force User Linux dengan Subf
-date: 2025-06-08
-description: Eksplorasi tool Subf untuk melakukan brute-force user Linux via `su`, menggunakan pendekatan Python dan Bash. Pelajari cara kerja, implementasi, dan potensi dampaknya.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+# Brute-force User Linux dengan Subf
 ## Apa itu Subf?
 
 **Subf** adalah tool buatan sendiri untuk melakukan brute-force terhadap akun user di Linux menggunakan perintah `su`. Tool ini tersedia dalam dua versi: Python dan Bash. Subf akan mencoba berbagai kombinasi password terhadap user tertentu hingga menemukan yang cocok.
@@ -14,7 +8,7 @@ description: Eksplorasi tool Subf untuk melakukan brute-force user Linux via `su
 
 Brute-force terhadap `su` biasanya sulit karena sifatnya yang interaktif. Subf mengatasi tantangan ini dengan memanfaatkan modul `pexpect` pada Python dan `expect` pada Bash untuk mengotomatiskan proses tersebut.
 
-Source code tersedia di GitHub: [source code](https://github.com/ariafatah0711/idn_bootcamp/tree/main/task/week_2/03_BruteForce/subf)
+Source code tersedia di GitHub: [source code](https://github.com/ariafatah0711/subf)
 
 ---
 
