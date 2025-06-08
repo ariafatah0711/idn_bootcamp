@@ -1,0 +1,10 @@
+user1
+pass1
+user
+P@ssw0rd
+passw0rd
+123
+456
+789
+12345
+321
