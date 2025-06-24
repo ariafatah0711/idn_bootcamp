@@ -1,0 +1,19 @@
+# Nmap 7.95 scan initiated Tue Jun 24 21:11:13 2025 as: /usr/lib/nmap/nmap --privileged -sCV -T5 -p 8081 -oN nmap localhost
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000066s latency).
+Other addresses for localhost (not scanned): ::1
+
+PORT     STATE SERVICE VERSION
+8081/tcp open  http    Apache httpd 2.4.25 ((Debian))
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+|_http-server-header: Apache/2.4.25 (Debian)
+| http-title: Login :: Damn Vulnerable Web Application (DVWA) v1.10 *Develop...
+|_Requested resource was login.php
+| http-robots.txt: 1 disallowed entry 
+|_/
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Jun 24 21:11:20 2025 -- 1 IP address (1 host up) scanned in 6.44 seconds
