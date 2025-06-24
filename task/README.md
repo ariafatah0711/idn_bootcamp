@@ -28,3 +28,20 @@
 	- [Form](https://forms.gle/td8xzWCKmcrJpDXE9)
 - Tugas Sesi 3 Week 3 : Jelaskan Hash dengan bahasa yang mudah di pahami, di form ini ! 
 	- [Form](https://forms.gle/UgATfYD3x7wCpTy48)
+
+## week 4
+LIBUR
+
+## week 5
+1. Lab Web Application Penetration Testing
+Target: DVWA (Damn Vulnerable Web Application)
+2. Lab API Security Testing
+Target: DVVAPI (Dockerized Vulnerable API)
+3. Lab Mobile Application Pentest
+Target: InsecureBankv2
+4. Lab Infrastructure Network Pentest
+Target: Metasploitable2
+
+- Buatkan Report dari 4 vm ada diatas,dan isikan report yang ada di folder tugas
+
+## week 6
