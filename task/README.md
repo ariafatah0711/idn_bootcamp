@@ -4,6 +4,7 @@
 ## form
 - [form_tugas](https://docs.google.com/forms/d/e/1FAIpQLSeonPEHdYeXEux1feE496BD8hm8Xv_bEBjgEeRbpv6DTaOrzw/viewform)
 - [form_blog](https://docs.google.com/forms/d/e/1FAIpQLSeTP2O42d4r5UWDFFuUNHn1YL8OpWjttzMEfb9K_IFTFBueJw/viewform?usp=send_form)
+- [rekap_tugas](https://docs.google.com/spreadsheets/d/1T9W6DEmqV_RwYblVR5-nblqidiU_yrMOVjjThQH1ycM/edit)
 
 ## week 1
 - Tugas Sesi 1 : Buatkan Roadmap Cyber Security, Dalam 5 Tahun kedepan ( Semakin Lengkap, Semakin Menarik ) 
