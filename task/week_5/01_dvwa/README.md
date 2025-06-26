@@ -1,4 +1,4 @@
-# 🛡️ Laporan Praktikum – DVWA (Damn Vulnerable Web Application)
+# DVWA (Damn Vulnerable Web Application)
 ## 1. Informasi Umum
 
 - **Nama Peserta**        : Aria Fatah
