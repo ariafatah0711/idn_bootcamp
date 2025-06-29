@@ -59,22 +59,5 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 ## 5. Langkah-Langkah Praktikum
 https://github.com/dineshshetty/Android-InsecureBankv2
 
-📦 Cara Install Genymotion di Kali Linux:
-Download Genymotion .bin file dari situs resmi:
-
-https://www.genymotion.com/download/
-
-Jadikan executable dan jalankan:
-
-bash
-Salin
-Edit
-chmod +x genymotion-*.bin
-./genymotion-*.bin
-Ini akan mengekstrak dan menginstal Genymotion ke folder baru. Masuk ke folder tersebut:
-
-bash
-Salin
-Edit
-cd genymotion/
-./genymotion
+--
+### 1.

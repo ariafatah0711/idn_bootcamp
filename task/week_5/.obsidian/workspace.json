@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "04_Metasploitable2/README.md",
+                "file": "03_InscureBankv2_mobfs/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -170,11 +170,13 @@
   },
   "active": "baecac14d7feed4e",
   "lastOpenFiles": [
+    "03_InscureBankv2_mobfs/inscureBankv2.pdf",
     "04_Metasploitable2/metasploitable2.pdf",
+    "04_Metasploitable2/README.md",
+    "README.md",
     "02_dvapi/README.md",
     "02_dvapi/DVAPI.pdf",
     "01_dvwa/README.md",
-    "01_dvwa/dvwa.pdf",
-    "README.md"
+    "01_dvwa/dvwa.pdf"
   ]
 }
