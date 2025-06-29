@@ -251,7 +251,6 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 
 ## 8. Evaluasi dan Refleksi
 ### Tantangan Utama
-
 - Tantangan terbesar dalam proses pengujian ini adalah memahami bagaimana payload sederhana bisa dimanfaatkan untuk mengeksploitasi berbagai jenis kerentanan.
 - Beberapa kerentanan membutuhkan kombinasi teknik atau urutan langkah tertentu agar berhasil, seperti pada Blind SQL Injection dan Stored XSS.
 - Mengatur lingkungan lab DVWA dan memahami alur data di dalam aplikasi juga menjadi bagian penting dari proses.
