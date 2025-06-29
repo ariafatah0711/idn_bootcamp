@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_dvapi/README.md",
+                "file": "04_Metasploitable2/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -170,9 +170,10 @@
   },
   "active": "baecac14d7feed4e",
   "lastOpenFiles": [
+    "04_Metasploitable2/metasploitable2.pdf",
+    "02_dvapi/README.md",
     "02_dvapi/DVAPI.pdf",
     "01_dvwa/README.md",
-    "02_dvapi/README.md",
     "01_dvwa/dvwa.pdf",
     "README.md"
   ]
