@@ -1,0 +1,1 @@
+# Perbedaan Menggunakan Tools Manual dan Automation pada kegiatan Bug Bounty

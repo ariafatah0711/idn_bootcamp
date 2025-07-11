@@ -5,6 +5,8 @@
 - [form_tugas](https://docs.google.com/forms/d/e/1FAIpQLSeonPEHdYeXEux1feE496BD8hm8Xv_bEBjgEeRbpv6DTaOrzw/viewform)
 - [form_blog](https://docs.google.com/forms/d/e/1FAIpQLSeTP2O42d4r5UWDFFuUNHn1YL8OpWjttzMEfb9K_IFTFBueJw/viewform?usp=send_form)
 - [rekap_tugas](https://docs.google.com/spreadsheets/d/1T9W6DEmqV_RwYblVR5-nblqidiU_yrMOVjjThQH1ycM/edit)
+- [clasroom](https://classroom.google.com/u/1/c/NzgyNzE5Mzk5NTcy)
+- [minggu_7](https://docs.google.com/forms/d/e/1FAIpQLSdRAEFlsRpNAvunoXghMLVRUg4euk7Bz13Wd_WfEr-GHeflZg/viewform)
 
 ## week 1
 - Tugas Sesi 1 : Buatkan Roadmap Cyber Security, Dalam 5 Tahun kedepan ( Semakin Lengkap, Semakin Menarik ) 
@@ -44,4 +46,7 @@ Target: Metasploitable2
 
 - Buatkan Report dari 4 vm ada diatas,dan isikan report yang ada di folder tugas
 
-## week 6
+## week 7
+1. Buatkan Methodology Bug Bounty Kalian Sendiri
+2. Jelaskan Perbedaan Menggunakan Tools Manual dan Automation pada kegiatan Bug Bounty 
+3. Berikan Pendapat tentang perbedaan Red Teaming & Pentesting
