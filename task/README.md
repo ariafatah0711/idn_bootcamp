@@ -50,3 +50,10 @@ Target: Metasploitable2
 1. Buatkan Methodology Bug Bounty Kalian Sendiri
 2. Jelaskan Perbedaan Menggunakan Tools Manual dan Automation pada kegiatan Bug Bounty 
 3. Berikan Pendapat tentang perbedaan Red Teaming & Pentesting
+
+## week 8
+pass: infected
+Malware Analyst ( Reverse Eng )
+ada 3 aplikasi yang harus dilakukan Analisa, setelah dianalisa.. jawab pertanyaan yang ada di google form dan buatkan report ( opsional ) 
+
+## week 9
