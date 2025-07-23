@@ -1,6 +1,36 @@
 # fine tunning wazuh
+cuma butuh wazuh manager
 
+lokasi filenya var/ossces/rulesset/rules
+nanti kalo udh di customr eload systemctl reload wazuh-manager
 
+- discovery
+
+- rules
+- decoder
+
+---
+
+file intergrity monitoring
+
+ini setting di wazuh agent keknya
+/var/ossec/etc/ossec.conf
+
+systemctl restart wazuh-agent
+
+---
+
+rule sets
+
+jadi nanti buat decoder dulu
+
+baru ruleset
+
+jika nanti error pas lagi buat decoder di xml nya yang
+var/ossces/rulesset/rules cobapake xml fixing format atau pake xmllint apa gitu
+jangan lupa permission nya ya ato gak ubah chgrp
+
+klo misal error pas di restart bisa pake sibling rules biar gak dijadiin 1 rules
 ---
 
 📚 Yang Harus Dipelajari:
