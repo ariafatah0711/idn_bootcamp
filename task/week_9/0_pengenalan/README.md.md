@@ -108,30 +108,15 @@ Catatan: Wazuh juga dapat digunakan untuk memonitor perangkat seperti peralatan 
 ### quick start
 [documentation.wazuh.com/current/quickstart.html](https://documentation.wazuh.com/current/quickstart.html)
 
+> jangan lupa liat spek nya ya soalnya besar
+
 #### 1. Install Wazuh
 Run the following command to download and install Wazuh: \
 ```bash
 curl -sO https://packages.wazuh.com/4.12/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 ```
 
-#### 23/07/2025 09:14:59 ERROR: Filebeat installation failed.
-```bash
-curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/elastic-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
-sudo apt update
-sudo apt install filebeat
-# ---
-
-sudo apt purge wazuh-manager -y
-sudo apt autoremove -y
-sudo netstat -tulnp | grep -E '1515|55000'
-sudo kill -9 <pid>
-# ---
-
-sudo bash ./wazuh-install.sh -a --overwrite
-```
-
-### 2. Access the Wazuh Web Interface
+#### 2. Access the Wazuh Web Interface
 Once the installation completes, check the output for your access credentials: \
 ```bash
 INFO: --- Summary ---
@@ -148,13 +133,13 @@ Access the web interface:
 
 > **Note**: Your browser may show a warning about the SSL certificate. You can either accept the risk temporarily or configure a trusted certificate later.
 
-### 3. Retrieve All Wazuh Component Passwords (Optional)
+#### 3. Retrieve All Wazuh Component Passwords (Optional)
 To extract the passwords used by the Wazuh indexer and Wazuh API: \
 ```bash
 sudo tar -O -xvf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt
 ```
 
-### 4. Disable Wazuh Updates (Recommended)
+#### 4. Disable Wazuh Updates (Recommended)
 To avoid accidental updates that may break the setup, disable the Wazuh repository: \
 **For Debian/Ubuntu systems:** \
 ```bash
@@ -163,15 +148,94 @@ sudo apt update
 ```
 
 ### VM (OVA)
-- comming soon
+[documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html](https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html)
+
+#### 1. Import and access the virtual machine
+- Import the OVA to the virtualization platform.
+- If you're using VirtualBox, set the VMSVGA graphic controller. Setting another graphic controller freezes the VM window.
+  - Select the imported VM.
+  - Click Settings > Display
+  - In Graphic controller, select the VMSVGA option.
+- Start the machine.
+- Access the virtual machine using the following user and password. You can use the virtualization platform or access it via SSH.
+  ```bash
+  user: wazuh-user
+  password: wazuh
+  ```
+  SSH root user login has been deactivated; nevertheless, the wazuh-user retains sudo privileges. Root privilege escalation can be achieved by executing the following command:
+  ```bash
+  sudo -i
+  ```
+
+#### 2. Access the Wazuh dashboard
+- Shortly after starting the VM, the Wazuh dashboard can be accessed from the web interface by using the following credentials:
+  ```bash
+  URL: https://<wazuh_server_ip>
+  user: admin
+  password: admin
+  ```
+- You can find <wazuh_server_ip> by typing the following command in the VM:
+  ```bash
+  ip a
+  ```
+- Configuration files
+  All components included in this virtual image are configured to work out-of-the-box, without the need to modify any settings. However, all components can be fully customized. These are the configuration files locations:
+  - Wazuh manager: /var/ossec/etc/ossec.conf
+  - Wazuh indexer: /etc/wazuh-indexer/opensearch.yml
+  - Filebeat-OSS: /etc/filebeat/filebeat.yml
+  - Wazuh dashboard:
+    - /etc/wazuh-dashboard/opensearch_dashboards.yml
+    - /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
 
 ### Docker
 - comming soon
 
-## configure rules
+## agent
+```bash
+wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.12.0-1_amd64.deb && sudo WAZUH_MANAGER='192.168.1.15' WAZUH_AGENT_NAME='LINUX' dpkg -i ./wazuh-agent_4.12.0-1_amd64.deb
+sudo systemctl daemon-reload
+sudo systemctl enable wazuh-agent
+sudo systemctl start wazuh-agent
+```
 
+## configure rules
 
 ## referensi
 - [medium-pengenalan_aplikasi_wazuh](https://medium.com/@aiwidasukmawatiazzahra123/pengenalan-aplikasi-wazuh-untuk-perlindungan-keamanan-siber-18535755da92)
 - []()
 - []()
+
+# test
+```bash
+# Hentikan semua layanan
+sudo systemctl stop wazuh-manager
+sudo systemctl stop wazuh-indexer
+sudo systemctl stop filebeat
+sudo systemctl stop wazuh-dashboard
+
+# Hapus semua paket Wazuh
+sudo apt remove --purge wazuh-manager wazuh-indexer wazuh-dashboard filebeat -y
+sudo apt remove --purge wazuh-manager -y
+sudo rm -rf /var/ossec /etc/wazuh* /usr/share/wazuh* /opt/wazuh* /var/log/wazuh*
+sudo apt autoremove --purge -y
+sudo apt clean
+
+# Hapus semua direktori konfigurasi dan data
+sudo rm -rf /var/ossec
+sudo rm -rf /etc/wazuh*
+sudo rm -rf /etc/filebeat
+sudo rm -rf /etc/wazuh-dashboard
+sudo rm -rf /usr/share/wazuh*
+sudo rm -rf /var/lib/filebeat
+sudo rm -rf /var/log/wazuh*
+sudo rm -rf /opt/wazuh*
+sudo rm -rf /etc/systemd/system/wazuh*
+
+# Hapus user dan group jika masih ada
+sudo userdel wazuh
+sudo groupdel wazuh
+
+# Bersihkan apt cache
+sudo apt autoremove --purge -y
+sudo apt clean
+```

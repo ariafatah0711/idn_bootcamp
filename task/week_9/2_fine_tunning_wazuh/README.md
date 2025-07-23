@@ -1,5 +1,4 @@
-# comming soon
-
+# fine tunning wazuh
 
 
 ---
