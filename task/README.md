@@ -57,3 +57,10 @@ Malware Analyst ( Reverse Eng )
 ada 3 aplikasi yang harus dilakukan Analisa, setelah dianalisa.. jawab pertanyaan yang ada di google form dan buatkan report ( opsional ) 
 
 ## week 9
+1. Research Sigma & Yara Rules.. Buatkan Use Case Penggunaan dan gunakan ioc malware kemarin dan buatkan rulenya ( Buatkan Report dan posting di linkedin ), upload di form Bawah ini : on-progres 
+2. Lakukan fine tunning pada ruleset dan decoder wazuh 
+	1. Buat Ruleset & Decoder baru untuk 2 log file dibawah ini, dengan konsep atomic ruleset dan siblings decoder 
+	2. Testing dengan logstast atau wazuh log testing di dashboard wazuh.
+	3. Buat Report Kirimkan Ke form ini dan posting di linkedin : on-progress
+
+## week 10
