@@ -19,7 +19,7 @@
 <!-- 99. LOG Detail -->
 <decoder name="nova-api-log-detail">
   <parent>nova-api-log</parent>
-  <regex type="pcre2">\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d+) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+) \[([^\]]+)\](?: \[instance: ([a-f0-9\-]+)\])?(?: (.+))?</regex>
+  <regex type="pcre2">\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d+) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+)(?: \[req-([a-f0-9\-]+)(?: [^\]]*)?\])?(?: \[instance: ([a-f0-9\-]+)\])?(?: (.+))?</regex>
   <order>log_timestamp, event_timestamp, pid, log_level, module, request_id, instance_id, message</order>
 </decoder>
 
@@ -27,6 +27,6 @@
 <!-- 99. LOG Detail -->
 <decoder name="nova-compute-log-detail">
   <parent>nova-computed-log</parent>
-  <regex type="pcre2">\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d+) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+) \[([^\]]+)\](?: \[instance: ([a-f0-9\-]+)\])?(?: (.+))?</regex>
+  <regex type="pcre2">\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d+) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+)(?: \[req-([a-f0-9\-]+)(?: [^\]]*)?\])?(?: \[instance: ([a-f0-9\-]+)\])?(?: (.+))?</regex>
   <order>log_timestamp, event_timestamp, pid, log_level, module, request_id, instance_id, message</order>
 </decoder>
