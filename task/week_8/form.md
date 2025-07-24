@@ -28,7 +28,7 @@
 - **File Hashes:**
   - MD5: `290934c61de9176ad682ffdd65f0a669`
   - SHA1: `a4b35de71ca20fe776dc72d12fb2886736f43c22`
-  - SHA256: `f50e42c8dfaab649bde0398867e930b86c2a599e8db83b8260393082268f2dba`
+  - SHA256: `c876a332d7dd8da331cb8eee7ab7bf32752834d4b2b54eaa362674a2a48f64a6`
 - **Static Artifacts:**
   - Hardcoded IP Address: `127.26.152.13`
   - String mencurigakan: `exec`, `CreateProcessA`, `CreateMutexA`, `WS2_32.dll`, `SADFHUHF`, `sleep`, `hello`
