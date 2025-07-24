@@ -33,19 +33,19 @@ yara rules.yar 3.txt
 yara rules.yar ./
 ```
 
-# rules
+## setup
+```bash
+git clone https://github.com/karetnyadua123/tugas-week-8
+```
+
+## rules
 * Dapatkan sample malware (contoh: .exe, .dll, .bin)
 * Jalankan `strings namafile` untuk melihat isi string mencurigakan
 * (Opsional) Upload ke VirusTotal untuk cek SHA256 dan behavior
 * Salin hasil `strings` ke ChatGPT untuk dibuatkan YARA rule
 * Simpan dan tes dengan `yara rule.yar namafile`
 
-## setup
-```bash
-git clone https://github.com/karetnyadua123/tugas-week-8
-```
-
-## 1
+### 1
 ```bash
 cat << "EOF" > local.yar
 rule Malware_Lab01_01_Generic
@@ -78,7 +78,7 @@ EOF
 yara -s local.yar tugas-week-8/Lab01-01.dll
 ```
 
-## 2
+### 2
 ```bash
 cat << "EOF" > local.yar
 rule Lab01_01_exe
@@ -111,7 +111,7 @@ EOF
 yara -s local.yar tugas-week-8//Lab01-01.exe
 ```
 
-## 3
+### 3
 ```bash
 cat << "EOF" > local.yar
 rule Malware_Lab01_02_Generic
@@ -151,8 +151,8 @@ EOF
 yara -s local.yar tugas-week-8/Lab01-02.bin
 ```
 
-# fixed
-## 1
+## fixed
+### 1
 ```bash
 cat << "EOF" > local.yar
 rule Malware_Lab01_01_Generic
