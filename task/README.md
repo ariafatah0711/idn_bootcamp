@@ -46,6 +46,9 @@ Target: Metasploitable2
 
 - Buatkan Report dari 4 vm ada diatas,dan isikan report yang ada di folder tugas
 
+## week 6
+LIBUR
+
 ## week 7
 1. Buatkan Methodology Bug Bounty Kalian Sendiri
 2. Jelaskan Perbedaan Menggunakan Tools Manual dan Automation pada kegiatan Bug Bounty 
