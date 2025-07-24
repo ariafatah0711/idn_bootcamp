@@ -1,5 +1,5 @@
 <group name="nova,">
-<!-- A. Decode As -->
+<!-- A. Decode As LVL-0 -->
   <!-- 1. nova-api -->
   <rule id="100100" level="0">
     <decoded_as>nova-api-log</decoded_as>
@@ -12,7 +12,7 @@
     <description>OpenStack Nova Compute base log</description>
   </rule>
 
-<!-- B. Alert - LOG_LEVEL -->
+<!-- B. Alert - LOG_LEVEL LVL-1,5,8 -->
   <!-- 1. nova-api -->
   <rule id="100101" level="1">
     <if_sid>100100</if_sid>
@@ -45,7 +45,7 @@
     <description>Nova Compute WARNING log</description>
   </rule>
 
-  <rule id="100203" level="10">
+  <rule id="100203" level="8">
     <if_sid>100200</if_sid>
     <field name="log_level">ERROR</field>
     <description>Nova Compute ERROR log</description>
