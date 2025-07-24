@@ -1,5 +1,5 @@
-# log
-## log normal
+# log openstack normal
+## log
 ```bash
 nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:00.008 25746 INFO nova.osapi_compute.wsgi.server [req-38101a0b-2096-447d-96ea-a692162415ae 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335e4c35a9e - - -] 10.11.10.1 "GET /v2/54fadb412c4e40cdbaed9335e4c35a9e/servers/detail HTTP/1.1" status: 200 len: 1893 time: 0.2477829
 nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Started (Lifecycle Event)
@@ -92,6 +92,11 @@ nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.co
 </decoder>
 ```
 
+# 5 fixed karean ada perbedaan harusnya gak perlu ada angkanya gitu di log awalnya
+```xml
+
+```
+
 # /var/ossec/etc/rules/local_rules.xml
 ## 1
 ```xml
@@ -106,6 +111,7 @@ nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.co
 # a
 ```bash
 cd /var/ossec/ruleset/decoders
+cat 0585-openstack-nova.xml
 # xmllint --noout 0585-openstack-nova.xml
 
 systemctl restart wazuh-manager
