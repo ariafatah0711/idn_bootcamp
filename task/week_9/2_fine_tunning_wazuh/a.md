@@ -34,7 +34,7 @@ nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.co
 
 ## 3 focuesd regex
 ### log_index - event timestamp
-```yaml
+```xml
 <decoder name="nova-log_combined">
   <parent>nova-log</parent>
   <regex type="pcre2" offset="after_parent">\.(\d+)\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})</regex>
@@ -43,7 +43,7 @@ nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.co
 ```
 
 ### log_index - log_level
-```yaml
+```xml
 <decoder name="nova-log_combined">
   <parent>nova-log</parent>
   <regex type="pcre2" offset="after_parent">\.(\d+)\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d{4,6}) (INFO|DEBUG|ERROR|WARNING|CRITICAL)</regex>
@@ -52,7 +52,7 @@ nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.co
 ```
 
 ### log_index - request id
-```yaml
+```xml
 <decoder name="nova-log_combined">
   <parent>nova-log</parent>
   <regex type="pcre2" offset="after_parent">\.(\d+)\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d{4,6}) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+) \[req-([a-f0-9\-]+)</regex>
@@ -61,36 +61,34 @@ nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.co
 ```
 
 ## 4 dipisah
+### parent
+```xml
+<decoder name="nova-api-log">
+  <prematch type="pcre2">^nova-api\.log</prematch>
+</decoder>
+
+<decoder name="nova-computed-log">
+  <prematch type="pcre2">^nova-compute\.log</prematch>
+</decoder>
+```
+
 ### 1
-```yaml
+```xml
 <!-- Decoder gabungan untuk nova-api -->
-<decoder name="nova-log-api">
-  <parent>nova-log</parent>
+<decoder name="nova-api-log-detail">
+  <parent>nova-api-log</parent>
   <regex type="pcre2" offset="after_parent">\.([0-9]+)\.([0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}:[0-9]{2}:[0-9]{2}) ([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}) ([0-9]{4,6}) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+) \[req-([a-f0-9\-]+) [a-f0-9]+ [a-f0-9]+ - - -\] ([0-9\.]+) "(GET|POST|PUT|DELETE) ([^"]+)" status: (\d{3}) len: (\d+) time: ([0-9\.]+)</regex>
   <order>log_index, log_timestamp, event_timestamp, pid, log_level, module, request_id, ip, http_method, http_path, http_status, http_len, http_time</order>
 </decoder>
 ```
 
 ### 2
-```yaml
+```xml
 <!-- Decoder gabungan untuk nova-compute -->
-<decoder name="nova-log-compute">
-  <parent>nova-log</parent>
-  <regex type="pcre2" offset="after_parent">\.(\d+)\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d{4,6}) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+) \[req-([a-f0-9\-]+)</regex>
-  <order>log_index, log_timestamp, event_timestamp, pid, log_level, module, request_id, instance_id, message</order>
-</decoder>
-
-<decoder name="nova-compute-log">
-  <parent>nova-log</parent>
-  <regex type="pcre2" offset="after_parent">
-    \.(\d+)\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2})\s
-    (\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\.\d{3})\s
-    (\d{4,6})\s
-    (INFO|DEBUG|ERROR|WARNING|CRITICAL)\s
-    ([\w\.]+)\s
-    \[req-([a-f0-9\-]+)\s-+\]\s
-  </regex>
-  <order>log_index, log_timestamp, event_timestamp, pid, log_level, module, request_id</order>
+<decoder name="nova-compute-log-detail">
+  <parent>nova-computed-log</parent>
+  <regex type="pcre2">\.([0-9]+)\.(\d{4}-\d{2}-\d{2}_\d{2}:\d{2}:\d{2}) (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (\d+) (INFO|DEBUG|ERROR|WARNING|CRITICAL) ([\w\.]+) \[([^\]]+)\](?: \[instance: ([a-f0-9\-]+)\])?(?: (.+))?</regex>
+  <order>log_index, log_timestamp, pid, pid_num, log_level, module, request_id, instance_id, message</order>
 </decoder>
 ```
 
