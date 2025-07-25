@@ -21,10 +21,15 @@
 
 ```bash
 mkdir -p wazuh
+# docker run -d --name wazuh-manager \
+#   -p 1514:1514/udp \
+#   -p 1515:1515 \
+#   -v wazuh:/var/ossec \
+#   wazuh/wazuh-manager:4.7.3
+
 docker run -d --name wazuh-manager \
   -p 1514:1514/udp \
   -p 1515:1515 \
-  -v wazuh:/var/ossec \
   wazuh/wazuh-manager:4.7.3
 
 docker exec -it wazuh-manager apt install nano
