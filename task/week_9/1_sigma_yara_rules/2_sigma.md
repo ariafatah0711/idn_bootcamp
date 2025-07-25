@@ -45,7 +45,6 @@ poetry install && poetry shell
 sigma version
 ```
 
-
 ## command
 ```bash
 # 1

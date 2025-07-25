@@ -4,30 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "95fb4b92b0cdff31",
+        "id": "9469db070f03b74e",
         "type": "tabs",
         "children": [
           {
-            "id": "6c863fee0ef6eb28",
+            "id": "d6c1891a654b90a2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task/week_7/01_Methodology_Bugbounty/README.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "README"
-            }
-          },
-          {
-            "id": "74ba9e11c750d058",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "task/week_8/3_wheheh/README.md",
+                "file": "task/week_9/2_fine_tunning_wazuh/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -35,8 +21,7 @@
               "title": "README"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -183,8 +168,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "74ba9e11c750d058",
+  "active": "d6c1891a654b90a2",
   "lastOpenFiles": [
+    "task/week_9/2_fine_tunning_wazuh/logtest.pdf",
+    "task/week_9/2_fine_tunning_wazuh/README.md",
+    "task/week_9/2_fine_tunning_wazuh/images/README/image-14.png",
+    "task/week_7/01_Methodology_Bugbounty/README.md",
+    "task/week_9/2_fine_tunning_wazuh/images/README/image-13.png",
+    "task/week_9/2_fine_tunning_wazuh/images/README/image-12.png",
+    "task/week_9/2_fine_tunning_wazuh/fine_tunning_wazuh.pdf",
+    "task/week_9/2_fine_tunning_wazuh/images/README/image-11.png",
+    "task/week_9/2_fine_tunning_wazuh/images/README/image-10.png",
+    "task/week_8/3_wheheh/README.md",
     "task/week_8/form.md",
     "task/week_8/3_wheheh/form.md",
     "task/week_8/1_walawe/form.md",
@@ -199,7 +194,6 @@
     "task/week_7/03_RedTeaming_Pentesting/RedTeaming_Pentesting.pdf",
     "task/week_7/02_Tools_Bugbounty/README.md",
     "task/week_7/02_Tools_Bugbounty/Tools_Bugbounty.pdf",
-    "task/week_7/01_Methodology_Bugbounty/README.md",
     "task/week_5/01_dvwa/dvwa.pdf",
     "task/week_5/01_dvwa/README.md"
   ]
