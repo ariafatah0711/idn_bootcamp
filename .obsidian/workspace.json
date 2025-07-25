@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "task/week_9/2_fine_tunning_wazuh/README.md",
+                "file": "task/week_9/1_sigma_yara_rules/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -170,8 +170,9 @@
   },
   "active": "d6c1891a654b90a2",
   "lastOpenFiles": [
-    "task/week_9/2_fine_tunning_wazuh/logtest.pdf",
+    "task/week_9/1_sigma_yara_rules/yara_sigma.pdf",
     "task/week_9/2_fine_tunning_wazuh/README.md",
+    "task/week_9/2_fine_tunning_wazuh/logtest.pdf",
     "task/week_9/2_fine_tunning_wazuh/images/README/image-14.png",
     "task/week_7/01_Methodology_Bugbounty/README.md",
     "task/week_9/2_fine_tunning_wazuh/images/README/image-13.png",

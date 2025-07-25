@@ -1,4 +1,4 @@
-# Fine Tuning Wazuh
+# fine tunning pada ruleset dan decoder wazuh
 ## A. Descriptiom
 1. Buat Ruleset & Decoder baru untuk 2 log file dibawah ini, dengan konsep atomic ruleset dan siblings decoder 
 2. Testing dengan logtest atau wazuh log testing di dashboard wazuh.
