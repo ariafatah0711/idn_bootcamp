@@ -25,12 +25,17 @@ chown -R root:wazuh /var/ossec/ruleset/rules/1001-openstack-nova-rules.xml
 
 ## config ruels
 ```bash
-# shorcut biar copy paste nya sekali click
+# shorcut biar copy paste nya cepet
 echo > /var/ossec/ruleset/decoders/0585-openstack-nova.xml && nano /var/ossec/ruleset/decoders/0585-openstack-nova.xml
+
 echo > /var/ossec/ruleset/rules/1001-openstack-nova-rules.xml && nano /var/ossec/ruleset/rules/1001-openstack-nova-rules.xml
+
+# kalo manual
+nano /var/ossec/ruleset/decoders/0585-openstack-nova.xml
+nano /var/ossec/ruleset/rules/1001-openstack-nova-rules.xml
 ```
 
-> untuk confignya bisa di cek di (https://notes.ariaf.my.id/#/ruleset_idn_test#0585-openstack-nova.xml) untuk decoder, dan ruleset (https://notes.ariaf.my.id/#/ruleset_idn_test#1001-openstack-nova-rules.xml)
+> untuk confignya bisa di cek di https://notes.ariaf.my.id/#/ruleset_idn_test#0585-openstack-nova.xml untuk decoder, dan ruleset https://notes.ariaf.my.id/#/ruleset_idn_test#1001-openstack-nova-rules.xml
 
 ## restart (opsional kareana ganti rules gka perlu di reload (kecuali jika ada erorr cant connect gitu))
 ```bash
