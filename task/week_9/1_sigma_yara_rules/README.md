@@ -212,7 +212,7 @@ echo '{"win":{"system":{"eventID":1},"process":{"command_line":"CreateProcessA",
 
 <div style="page-break-after: always;"></div>
 
-# Ruler dari Malware
+# Rules dari Malware sebelumnya
 ## A. Yara
 ### 1. cara buat rules yara menggunakan chat gpt
 * Dapatkan sample malware (contoh: .exe, .dll, .bin)
