@@ -228,7 +228,7 @@ git clone https://github.com/karetnyadua123/tugas-week-8
 
 ### 3. buat rules yang sudah dibuat berdasarkan IOC (Indicators of Compromise)
 - [./local.yar](https://github.com/ariafatah0711/idn_bootcamp/blob/main/task/week_9/1_sigma_yara_rules/rules/local.yar)
-  ![alt text](images/README/image-6.png)
+  ![alt text](images/README/image-7.png)
 
 ```bash
 cat << "EOF" > local.yar
@@ -252,5 +252,5 @@ yara -s local.yar tugas-week-8/
 
 ![alt text](images/README/image-1.png)
 
-## B. Sigma
-comming soon
+<!-- ## B. Sigma
+comming soon -->
