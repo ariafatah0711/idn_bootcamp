@@ -142,28 +142,29 @@ python3 sigma_to_wazuh.py
 
 ![alt text](images/README/image-2.png)
 
-#### 2. testing untuk rules sigma (opsional ini contoh rules untuk detecsi sebuah process)
+<!-- #### 2. testing untuk rules sigma (opsional ini contoh rules untuk detecsi sebuah process)
 - ini rules wazuh untuk testing apakah lognya bisa ke detect (untuk lognya sendiri itu dari ai, semuanya dari AI :v)
 - lakukan test ini di wazuh manager
     ```bash
     cat << "EOF" > /var/ossec/etc/rules/local_rules.xml
-    <group name="windows,sysmon,">
-    <rule id="110000" level="10">
+    <group name="windows,sysmon">
+      <rule id="110000" level="10">
         <decoded_as>json</decoded_as>
         <field name="win.system.eventID">1</field>
         <field name="win.process.command_line">CreateProcessA</field>
         <field name="win.process.loaded_modules">WS2_32.dll</field>
         <description>Detect CreateProcessA + WS2_32.dll from Sysmon</description>
-    </rule>
+      </rule>
     </group>
     EOF
 
     echo '{"win":{"system":{"eventID":1},"process":{"command_line":"CreateProcessA","loaded_modules":"WS2_32.dll"}}}' | /var/ossec/bin/wazuh-logtest
     ```
+    ![alt text](images/README/image-8.png) -->
   
 <div style="page-break-after: always;"></div>
 
-#### 3. buat rules sigma yang mirip dengan rules wazuh di atas
+#### 2. buat rules sigma yang mirip dengan rules wazuh di atas
 - nah lalu kita buat sebuah rules dari yaml menggunakan sigma yang di convert ke wazuh nantinya sebagai xml
 
 ```bash
@@ -195,7 +196,7 @@ cat sigma.xml
 ```
 ![alt text](images/README/image-4.png)
 
-<div style="page-break-after: always;"></div>
+<!-- <div style="page-break-after: always;"></div>
 
 #### 4. testing rules xml menggunakan wazuh
 - lakukan **copy paste output sigma.xml** yang dihasilakan **sigma_to_wazuh**, dan **lakukan test dengan log di atas** tadi
@@ -206,7 +207,7 @@ EOF
 
 echo '{"win":{"system":{"eventID":1},"process":{"command_line":"CreateProcessA","loaded_modules":"WS2_32.dll"}}}' | /var/ossec/bin/wazuh-logtest
 ```
-![alt text](images/README/image-5.png)
+![alt text](images/README/image-5.png) -->
 
 ---
 
