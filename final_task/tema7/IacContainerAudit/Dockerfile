@@ -19,11 +19,15 @@ RUN curl -sSL https://github.com/zegl/kube-score/releases/download/v1.20.0/kube-
 # Install Checkov
 RUN pip install --no-cache-dir checkov
 
+# Install tfsec
+RUN curl -sSL https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64 \
+    -o /usr/local/bin/tfsec && chmod +x /usr/local/bin/tfsec
+
 # Buat folder project
 WORKDIR /app
 
 # Copy file script, and sh
-COPY ./scripts scripts
+COPY ./scripts/reporter.py scripts/
 COPY ./scan.sh .
 RUN ls
 

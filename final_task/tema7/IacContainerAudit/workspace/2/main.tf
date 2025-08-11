@@ -22,3 +22,15 @@ resource "aws_s3_bucket_public_access_block" "secure_block" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = "my-secure-bucket-logs"
+  acl    = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_logging" "secure_logging" {
+  bucket = aws_s3_bucket.secure_bucket.id
+
+  target_bucket = aws_s3_bucket.log_bucket.id
+  target_prefix = "log/"
+}

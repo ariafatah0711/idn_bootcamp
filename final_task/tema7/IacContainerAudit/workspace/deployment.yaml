@@ -1,19 +1,52 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: insecure-app
+  name: secure-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: insecure
+      app: secure
   template:
     metadata:
       labels:
-        app: insecure
+        app: secure
     spec:
       containers:
       - name: app
-        image: nginx:latest
+        image: nginx:1.25.3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+            ephemeral-storage: "1Gi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+            ephemeral-storage: "2Gi"
         securityContext:
-          runAsUser: 0
+          runAsUser: 10001
+          runAsGroup: 10001
+          allowPrivilegeEscalation: false
+          privileged: false
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: secure-app-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: secure
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector: {}
+  egress:
+    - to:
+        - podSelector: {}

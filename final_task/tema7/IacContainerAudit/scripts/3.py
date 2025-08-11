@@ -73,33 +73,38 @@ th { background-color: #f4f4f4; }
 """
     html += f"<h1>Security Audit Report</h1><p><strong>Generated:</strong> {datetime.utcnow()} UTC</p>"
 
-    # # Trivy
-    # trivy_rows = []
-    # trivy = load_json(outdir / "trivy_fs.json")
-    # if trivy:
-    #     for r in trivy.get("Results", []):
-    #         for v in r.get("Vulnerabilities", []):
-    #             sev = v.get("Severity", "UNKNOWN")
-    #             severity_count[sev] = severity_count.get(sev, 0) + 1
-    #             trivy_rows.append((
-    #                 v.get("VulnerabilityID"),
-    #                 sev,
-    #                 v.get("Title")
-    #             ))
+    # Trivy
+    trivy_rows = []
+    trivy = load_json(outdir / "trivy_fs.json")
+    if trivy:
+        for r in trivy.get("Results", []):
+            for v in r.get("Vulnerabilities", []):
+                sev = v.get("Severity", "UNKNOWN")
+                severity_count[sev] = severity_count.get(sev, 0) + 1
+                trivy_rows.append((
+                    v.get("VulnerabilityID"),
+                    sev,
+                    v.get("Title")
+                ))
 
-    # tfsec
-    tfsec_rows = []
-    tfsec = load_json(outdir / "tfsec.json")
-    if tfsec:
-        for r in tfsec.get("results", []):
-            sev = r.get("severity", "UNKNOWN").upper()
-            severity_count[sev] = severity_count.get(sev, 0) + 1
-            tfsec_rows.append((
-                r.get("rule_id"),
-                sev,
-                r.get("description"),
-                f"{r.get('location', {}).get('filename', '')}:{r.get('location', {}).get('start_line', '')}"
-            ))
+    # Checkov
+    checkov_rows = []
+    checkov = load_json(outdir / "checkov.json")
+    if checkov:
+        if isinstance(checkov, list):
+            for entry in checkov:
+                if isinstance(entry, dict) and "results" in entry:
+                    for fc in entry["results"].get("failed_checks", []):
+                        checkov_rows.append((
+                            fc.get("check_id"),
+                            fc.get("check_name")
+                        ))
+        elif isinstance(checkov, dict):
+            for fc in checkov.get("results", {}).get("failed_checks", []):
+                checkov_rows.append((
+                    fc.get("check_id"),
+                    fc.get("check_name")
+                ))
 
     # Dockle
     dockle_rows = []
@@ -122,11 +127,8 @@ th { background-color: #f4f4f4; }
     html += "</table>"
 
     # Per-tool details
-
-    # html += "<h2>Trivy Findings</h2>" + make_table(trivy_rows, ["ID", "Severity", "Title"])
-    # html += "<h2>Checkov Findings</h2>" + make_table(checkov_rows, ["Check ID", "Name"])
-
-    html += "<h2>tfsec Findings</h2>" + make_table(tfsec_rows, ["Rule ID", "Severity", "Description", "Location"])
+    html += "<h2>Trivy Findings</h2>" + make_table(trivy_rows, ["ID", "Severity", "Title"])
+    html += "<h2>Checkov Findings</h2>" + make_table(checkov_rows, ["Check ID", "Name"])
     html += "<h2>Dockle Findings</h2>" + make_table(dockle_rows, ["Code", "Level", "Title"])
 
     # Kube-score
