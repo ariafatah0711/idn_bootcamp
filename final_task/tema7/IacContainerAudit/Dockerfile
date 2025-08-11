@@ -22,9 +22,11 @@ RUN pip install --no-cache-dir checkov
 # Buat folder project
 WORKDIR /app
 
-# Copy workspace contoh
-COPY ./ .
+# Copy file script, and sh
+COPY ./scripts scripts
+COPY ./scan.sh .
 RUN ls
+
 # Set permission
 RUN chmod +x scan.sh
 
