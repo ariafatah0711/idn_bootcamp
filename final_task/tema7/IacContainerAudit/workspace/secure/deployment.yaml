@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secure-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: secure
+  template:
+    metadata:
+      labels:
+        app: secure
+    spec:
+      containers:
+      - name: app
+        image: nginx:1.25.2  # Gunakan versi spesifik untuk reproducibility
+        securityContext:
+          runAsUser: 1000            # User non-root yang sudah ada di image nginx
+          runAsNonRoot: true         # Pastikan gak jalan sebagai root
+          readOnlyRootFilesystem: true  # Root filesystem hanya read-only
+          allowPrivilegeEscalation: false # Tidak boleh privilege escalation
+          capabilities:
+            drop:
+              - ALL                 # Drop semua capability Linux yang gak perlu
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+      restartPolicy: Always

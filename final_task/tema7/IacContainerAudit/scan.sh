@@ -2,17 +2,17 @@
 set -euo pipefail
 
 WORKDIR=/app
-APP=workspace/2
+APP=workspace/3
 OUTDIR="$WORKDIR/outputs"
 mkdir -p "$OUTDIR"
 
 echo "Running Trivy FS scan..."
-trivy fs --format json --output "$OUTDIR/trivy_fs.json" "$WORKDIR/$APP" || true
+# trivy fs --format json --output "$OUTDIR/trivy_fs.json" "$WORKDIR/$APP" || true
 
-echo "Running Checkov..."
-# checkov -d "$WORKDIR/$APP" --output json > "$OUTDIR/checkov.json" || true
-checkov -d "$WORKDIR/$APP" --output json --compact > "$OUTDIR/checkov.json" || true
-# checkov -d "$WORKDIR/$APP" --output cyclonedx_json --compact > "$OUTDIR/checkov.json" || true
+# echo "Running Checkov..."
+# # checkov -d "$WORKDIR/$APP" --output json > "$OUTDIR/checkov.json" || true
+# checkov -d "$WORKDIR/$APP" --output json --compact > "$OUTDIR/checkov.json" || true
+# # checkov -d "$WORKDIR/$APP" --output cyclonedx_json --compact > "$OUTDIR/checkov.json" || true
 
 echo "Running tfsec..."
 if command -v tfsec >/dev/null 2>&1; then
