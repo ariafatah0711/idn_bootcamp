@@ -1,6 +1,6 @@
 # soal
 ## Rancang Bangun Sistem Audit Keamanan untuk Infrastructure-as-Code dan Container
-### Resource: 
+### Resource:
 - [dependabot](https://github.com/dependabot)
 - [synk.io](https://snyk.io/)
 
@@ -11,5 +11,7 @@ Membuat sistem otomatisasi audit terhadap konfigurasi Dockerfile, Kubernetes man
 1. Sistem audit CLI berbasis Python/Bash
 2. Laporan hasil pemeriksaan terhadap benchmark CIS
 3. Studi kasus konfigurasi tidak aman yang berhasil diidentifikasi
+
+---
 
 # testing
