@@ -1,0 +1,69 @@
+{
+  "examples/deployment.yaml": {
+    "metadata": {
+      "file_path": "examples/deployment.yaml",
+      "file_name": "deployment.yaml",
+      "file_size": 3108,
+      "file_type": "YAML",
+      "scanner": "k8sscanner",
+      "timestamp": 1755029389.438816
+    },
+    "scanner": "k8s_scanner",
+    "tools": {
+      "kube_score": {
+        "tool": "kube_score",
+        "status": "error",
+        "reason": "No configuration found for scanner: k8sscanner"
+      }
+    },
+    "overall_status": "no_tools_available"
+  },
+  "examples/Dockerfile": {
+    "metadata": {
+      "file_path": "examples/Dockerfile",
+      "file_name": "Dockerfile",
+      "file_size": 1136,
+      "file_type": "Dockerfile",
+      "scanner": "dockerscanner",
+      "timestamp": 1755029387.7087717
+    },
+    "scanner": "docker_scanner",
+    "tools": {
+      "hadolint": {
+        "tool": "hadolint",
+        "status": "error",
+        "reason": "No configuration found for scanner: dockerscanner"
+      },
+      "trivy": {
+        "tool": "trivy",
+        "status": "error",
+        "reason": "No configuration found for scanner: dockerscanner"
+      }
+    },
+    "overall_status": "no_tools_available"
+  },
+  "examples/main.tf": {
+    "metadata": {
+      "file_path": "examples/main.tf",
+      "file_name": "main.tf",
+      "file_size": 5189,
+      "file_type": "Terraform",
+      "scanner": "terraformscanner",
+      "timestamp": 1755029391.0997922
+    },
+    "scanner": "terraform_scanner",
+    "tools": {
+      "tfsec": {
+        "tool": "tfsec",
+        "status": "error",
+        "reason": "No configuration found for scanner: terraformscanner"
+      },
+      "checkov": {
+        "tool": "checkov",
+        "status": "error",
+        "reason": "No configuration found for scanner: terraformscanner"
+      }
+    },
+    "overall_status": "no_tools_available"
+  }
+}

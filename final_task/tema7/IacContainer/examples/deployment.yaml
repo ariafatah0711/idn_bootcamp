@@ -1,0 +1,134 @@
+# Sample Kubernetes deployment with security issues for testing
+# This file contains intentional security problems for demonstration
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insecure-app
+  labels:
+    app: insecure-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: insecure-app
+  template:
+    metadata:
+      labels:
+        app: insecure-app
+    spec:
+      # Security issue: Running as root
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+      
+      containers:
+      - name: app
+        image: ubuntu:latest
+        # Security issue: Privileged container
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+          capabilities:
+            add:
+            - ALL
+        
+        # Security issue: Host networking
+        ports:
+        - containerPort: 8080
+          hostPort: 8080
+        
+        # Security issue: No resource limits
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        
+        # Security issue: No health checks
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        
+        # Security issue: Mounting host paths
+        volumeMounts:
+        - name: host-volume
+          mountPath: /host
+          readOnly: false
+        
+        env:
+        - name: DEBUG
+          value: "true"
+        - name: SECRET_KEY
+          value: "insecure-secret-key"
+        
+        command: ["/bin/bash"]
+        args: ["-c", "while true; do sleep 30; done"]
+      
+      # Security issue: Host volume mount
+      volumes:
+      - name: host-volume
+        hostPath:
+          path: /
+          type: Directory
+      
+      # Security issue: No network policies
+      # Security issue: No pod security policies
+      # Security issue: No RBAC configuration
+
+---
+# Sample Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: insecure-app-service
+spec:
+  selector:
+    app: insecure-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
+
+---
+# Sample ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  config.json: |
+    {
+      "debug": true,
+      "log_level": "DEBUG",
+      "database_url": "postgresql://user:password@localhost:5432/db"
+    }
+
+---
+# Sample Secret (insecure - contains plain text)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  # Base64 encoded values (insecure in real scenarios)
+  username: dXNlcm5hbWU=  # username
+  password: cGFzc3dvcmQ=  # password
+  api_key: YXBpLWtleQ==   # api-key

@@ -1,0 +1,59 @@
+{
+  "scanners": {
+    "docker_scanner": {
+      "active": true,
+      "description": "Dockerfile security scanner using hadolint and trivy",
+      "extensions": ["Dockerfile", "dockerfile", ".dockerfile"],
+      "tools": {
+        "hadolint": {
+          "command": "hadolint",
+          "args": ["--format", "json", "PLACEHOLDER"],
+          "required": true
+        },
+        "trivy": {
+          "command": "trivy",
+          "args": ["config", "--format", "json", "PLACEHOLDER"],
+          "required": false
+        }
+      }
+    },
+    "k8s_scanner": {
+      "active": true,
+      "description": "Kubernetes manifest security scanner using kube-score",
+      "extensions": [".yaml", ".yml", ".json"],
+      "tools": {
+        "kube_score": {
+          "command": "kube-score",
+          "args": ["score", "--output-format", "json", "PLACEHOLDER"],
+          "required": true
+        }
+      }
+    },
+    "terraform_scanner": {
+      "active": true,
+      "description": "Terraform security scanner using tfsec and checkov",
+      "extensions": [".tf", ".tfvars", ".hcl"],
+      "tools": {
+        "tfsec": {
+          "command": "tfsec",
+          "args": ["--format", "json", "PLACEHOLDER"],
+          "required": false
+        },
+        "checkov": {
+          "command": "checkov",
+          "args": ["-f", "PLACEHOLDER", "--output", "json"],
+          "required": false
+        }
+      }
+    }
+  },
+  "output": {
+    "default_format": "json",
+    "include_timestamp": true,
+    "include_metadata": true
+  },
+  "logging": {
+    "level": "INFO",
+    "include_tool_output": true
+  }
+}

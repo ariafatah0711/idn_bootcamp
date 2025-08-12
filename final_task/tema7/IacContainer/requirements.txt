@@ -1,0 +1,5 @@
+# Optional: For YAML configuration support
+# PyYAML>=6.0
+
+# Required for type hints
+typing-extensions>=4.0.0
