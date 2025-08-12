@@ -31,17 +31,12 @@
     },
     "terraform_scanner": {
       "active": true,
-      "description": "Terraform security scanner using tfsec and checkov",
+      "description": "Terraform security scanner using tfsec",
       "extensions": [".tf", ".tfvars", ".hcl"],
       "tools": {
         "tfsec": {
           "command": "tfsec",
-          "args": ["--format", "json", "PLACEHOLDER"],
-          "required": false
-        },
-        "checkov": {
-          "command": "checkov",
-          "args": ["-f", "PLACEHOLDER", "--output", "json"],
+          "args": ["--format", "json", "PLACEHOLDER_DIR"],
           "required": false
         }
       }

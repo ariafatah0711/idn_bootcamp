@@ -2,9 +2,6 @@
 """
 Security File Scanner - Modular Security Scanning Automation Tool
 
-This script provides a modular approach to security scanning for various file types
-including Dockerfiles, Kubernetes manifests, and Terraform files.
-
 Usage:
     python3 app.py scan -f /path/to/dir
     python3 app.py scan -f /path/to/file -o output.json
@@ -16,7 +13,6 @@ import argparse
 import json
 import os
 import sys
-from pathlib import Path
 from typing import Dict, List, Optional
 
 from scanner_manager import ScannerManager
@@ -24,12 +20,7 @@ from config_manager import ConfigManager
 
 
 class SecurityScannerApp:
-    """
-    Main application class for security scanning automation.
-    
-    Handles CLI argument parsing, scanner management, and orchestrates
-    the scanning process for different file types.
-    """
+    """Main application class for security scanning automation."""
     
     def __init__(self):
         """Initialize the application with configuration and scanner manager."""
@@ -37,12 +28,7 @@ class SecurityScannerApp:
         self.scanner_manager = ScannerManager(self.config_manager)
     
     def parse_arguments(self) -> argparse.Namespace:
-        """
-        Parse command line arguments using argparse.
-        
-        Returns:
-            argparse.Namespace: Parsed command line arguments
-        """
+        """Parse command line arguments using argparse."""
         parser = argparse.ArgumentParser(
             description="Modular Security File Scanner",
             formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -75,20 +61,12 @@ Examples:
         return parser.parse_args()
     
     def run_scan(self, file_path: str, output_path: Optional[str] = None) -> None:
-        """
-        Execute security scan on the specified file or directory.
-        
-        Args:
-            file_path: Path to file or directory to scan
-            output_path: Optional output path for scan results
-        """
+        """Execute security scan on the specified file or directory."""
         try:
-            # Validate input path
             if not os.path.exists(file_path):
                 print(f"Error: Path '{file_path}' does not exist")
                 sys.exit(1)
             
-            # Determine if it's a file or directory
             if os.path.isfile(file_path):
                 self._scan_single_file(file_path, output_path)
             elif os.path.isdir(file_path):
@@ -102,26 +80,17 @@ Examples:
             sys.exit(1)
     
     def _scan_single_file(self, file_path: str, output_path: Optional[str] = None) -> None:
-        """
-        Scan a single file using appropriate scanner.
-        
-        Args:
-            file_path: Path to the file to scan
-            output_path: Optional output path for scan results
-        """
+        """Scan a single file using appropriate scanner."""
         print(f"Scanning file: {file_path}")
         
-        # Get appropriate scanner for file type
         scanner = self.scanner_manager.get_scanner_for_file(file_path)
         if not scanner:
             print(f"No suitable scanner found for file: {file_path}")
             return
         
-        # Run the scan
         try:
             scan_result = scanner.scan(file_path)
             
-            # Handle output
             if output_path:
                 self._save_scan_result(scan_result, output_path, file_path)
             else:
@@ -131,16 +100,9 @@ Examples:
             print(f"Error scanning {file_path}: {str(e)}")
     
     def _scan_directory(self, dir_path: str, output_path: Optional[str] = None) -> None:
-        """
-        Scan all supported files in a directory.
-        
-        Args:
-            dir_path: Path to the directory to scan
-            output_path: Optional output directory for scan results
-        """
+        """Scan all supported files in a directory."""
         print(f"Scanning directory: {dir_path}")
         
-        # Find all supported files
         supported_files = self._find_supported_files(dir_path)
         
         if not supported_files:
@@ -149,7 +111,6 @@ Examples:
         
         print(f"Found {len(supported_files)} supported files to scan")
         
-        # Scan each file
         all_results = {}
         for file_path in supported_files:
             try:
@@ -162,22 +123,13 @@ Examples:
                 print(f"Error scanning {file_path}: {str(e)}")
                 all_results[file_path] = {"error": str(e)}
         
-        # Handle output
         if output_path:
             self._save_scan_result(all_results, output_path, dir_path)
         else:
             print(json.dumps(all_results, indent=2))
     
     def _find_supported_files(self, dir_path: str) -> List[str]:
-        """
-        Find all supported files in a directory.
-        
-        Args:
-            dir_path: Path to the directory to search
-            
-        Returns:
-            List of file paths that can be scanned
-        """
+        """Find all supported files in a directory."""
         supported_files = []
         
         for root, dirs, files in os.walk(dir_path):
@@ -189,17 +141,9 @@ Examples:
         return supported_files
     
     def _save_scan_result(self, scan_result: Dict, output_path: str, source_path: str) -> None:
-        """
-        Save scan results to the specified output path.
-        
-        Args:
-            scan_result: Scan results to save
-            output_path: Path where to save the results
-            source_path: Original source path that was scanned
-        """
+        """Save scan results to the specified output path."""
         try:
             if os.path.isdir(output_path):
-                # Generate filename based on source
                 source_name = os.path.basename(source_path)
                 if os.path.isdir(source_path):
                     filename = f"{source_name}_scan_results.json"
@@ -209,12 +153,10 @@ Examples:
             else:
                 output_file = output_path
             
-            # Ensure output directory exists
             output_dir = os.path.dirname(output_file)
-            if output_dir:  # Only create directory if there is one
+            if output_dir:
                 os.makedirs(output_dir, exist_ok=True)
             
-            # Save results
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(scan_result, f, indent=2, ensure_ascii=False)
             

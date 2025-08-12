@@ -7,7 +7,7 @@ based on file types and configuration.
 
 import importlib
 import os
-from typing import Dict, List, Optional, Type
+from typing import Dict, List, Optional, Type, Any
 
 from base_scanner import BaseScanner
 from config_manager import ConfigManager
@@ -111,7 +111,7 @@ class ScannerManager:
         
         return None
     
-    def get_all_scanners(self) -> Dict[str, Dict[str, any]]:
+    def get_all_scanners(self) -> Dict[str, Dict[str, Any]]:
         """
         Get information about all available scanners.
         
@@ -125,7 +125,7 @@ class ScannerManager:
                 'active': True,
                 'description': scanner.get_description(),
                 'extensions': scanner.get_supported_extensions(),
-                'tools': scanner.get_required_tools()
+                'tools': list(scanner.scanner_config.get('tools', {}).keys()) if scanner.scanner_config else []
             }
         
         # Add inactive scanners from configuration
@@ -158,20 +158,6 @@ class ScannerManager:
         print("Reloading scanners...")
         self.scanners.clear()
         self._load_scanners()
-    
-    def test_scanner_tools(self) -> Dict[str, Dict[str, bool]]:
-        """
-        Test if required tools for each scanner are available.
-        
-        Returns:
-            Dictionary mapping scanner names to tool availability status
-        """
-        results = {}
-        
-        for scanner_name, scanner in self.scanners.items():
-            results[scanner_name] = scanner.test_tools()
-        
-        return results
     
     def get_supported_file_types(self) -> List[str]:
         """

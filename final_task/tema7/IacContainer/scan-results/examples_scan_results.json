@@ -1,0 +1,1293 @@
+{
+  "examples/deployment.yaml": {
+    "metadata": {
+      "file_path": "examples/deployment.yaml",
+      "file_name": "deployment.yaml",
+      "file_size": 3108,
+      "file_type": "YAML",
+      "scanner": "k8s_scanner",
+      "timestamp": 1755029389.438816
+    },
+    "scanner": "k8s_scanner",
+    "tools": {
+      "kube_score": {
+        "tool": "kube_score",
+        "command": "kube-score score --output-format json examples/deployment.yaml",
+        "return_code": 1,
+        "stdout": "[\n    {\n        \"object_name\": \"Deployment/apps/v1//insecure-app\",\n        \"type_meta\": {\n            \"kind\": \"Deployment\",\n            \"apiVersion\": \"apps/v1\"\n        },\n        \"object_meta\": {\n            \"name\": \"insecure-app\",\n            \"creationTimestamp\": null,\n            \"labels\": {\n                \"app\": \"insecure-app\"\n            }\n        },\n        \"checks\": [\n            {\n                \"check\": {\n                    \"name\": \"Stable version\",\n                    \"id\": \"stable-version\",\n                    \"target_type\": \"all\",\n                    \"comment\": \"Checks if the object is using a deprecated apiVersion\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Label values\",\n                    \"id\": \"label-values\",\n                    \"target_type\": \"all\",\n                    \"comment\": \"Validates label values\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Pod Probes Identical\",\n                    \"id\": \"pod-probes-identical\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Container has the same readiness and liveness probe\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Pod Topology Spread Constraints\",\n                    \"id\": \"pod-topology-spread-constraints\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Pod Topology Spread Constraints\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Pod Topology Spread Constraints\",\n                        \"description\": \"No Pod Topology Spread Constraints set, kube-scheduler defaults assumed\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Image Tag\",\n                    \"id\": \"container-image-tag\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that a explicit non-latest tag is used\",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"Image with latest tag\",\n                        \"description\": \"Using a fixed tag is recommended to avoid accidental upgrades\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Image Pull Policy\",\n                    \"id\": \"container-image-pull-policy\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that the pullPolicy is set to Always. This makes sure that imagePullSecrets are always validated.\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Ephemeral Storage Request Equals Limit\",\n                    \"id\": \"container-ephemeral-storage-request-equals-limit\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Make sure all pods have matching ephemeral-storage requests and limits\",\n                    \"optional\": true\n                },\n                \"grade\": 10,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because container-ephemeral-storage-request-equals-limit is ignored\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Environment Variable Key Duplication\",\n                    \"id\": \"environment-variable-key-duplication\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that duplicated environment variable keys are not duplicated\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Pod NetworkPolicy\",\n                    \"id\": \"pod-networkpolicy\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all Pods are targeted by a NetworkPolicy\",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"The pod does not have a matching NetworkPolicy\",\n                        \"description\": \"Create a NetworkPolicy that targets this pod to control who/what can communicate with this pod. Note, this feature needs to be supported by the CNI implementation used in the Kubernetes cluster to have an effect.\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Pod Probes\",\n                    \"id\": \"pod-probes\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all Pods have safe probe configurations\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Resource Requests Equal Limits\",\n                    \"id\": \"container-resource-requests-equal-limits\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have the same requests as limits on resources set.\",\n                    \"optional\": true\n                },\n                \"grade\": 1,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because container-resource-requests-equal-limits is ignored\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Memory Requests Equal Limits\",\n                    \"id\": \"container-memory-requests-equal-limits\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have the same memory requests as limits set.\",\n                    \"optional\": true\n                },\n                \"grade\": 1,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because container-memory-requests-equal-limits is ignored\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Ports Check\",\n                    \"id\": \"container-ports-check\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Container Ports Checks\",\n                    \"optional\": true\n                },\n                \"grade\": 10,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because container-ports-check is ignored\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Seccomp Profile\",\n                    \"id\": \"container-seccomp-profile\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have at a seccomp policy configured.\",\n                    \"optional\": true\n                },\n                \"grade\": 5,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because container-seccomp-profile is ignored\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Resources\",\n                    \"id\": \"container-resources\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have resource limits and requests set. The --ignore-container-cpu-limit flag can be used to disable the requirement of having a CPU limit\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container CPU Requests Equal Limits\",\n                    \"id\": \"container-cpu-requests-equal-limits\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have the same CPU requests as limits set.\",\n                    \"optional\": true\n                },\n                \"grade\": 1,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because container-cpu-requests-equal-limits is ignored\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Security Context User Group ID\",\n                    \"id\": \"container-security-context-user-group-id\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have a security context with valid UID and GID set \",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"The container is running with a low user ID\",\n                        \"description\": \"A userid above 10 000 is recommended to avoid conflicts with the host. Set securityContext.runAsUser to a value \\u003e 10000\"\n                    },\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"The container running with a low group ID\",\n                        \"description\": \"A groupid above 10 000 is recommended to avoid conflicts with the host. Set securityContext.runAsGroup to a value \\u003e 10000\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Security Context ReadOnlyRootFilesystem\",\n                    \"id\": \"container-security-context-readonlyrootfilesystem\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have a security context with read only filesystem set\",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"The pod has a container with a writable root filesystem\",\n                        \"description\": \"Set securityContext.readOnlyRootFilesystem to true\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Ephemeral Storage Request and Limit\",\n                    \"id\": \"container-ephemeral-storage-request-and-limit\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure all pods have ephemeral-storage requests and limits set\",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"Ephemeral Storage limit is not set\",\n                        \"description\": \"Resource limits are recommended to avoid resource DDOS. Set resources.limits.ephemeral-storage\"\n                    },\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"Ephemeral Storage request is not set\",\n                        \"description\": \"Resource requests are recommended to make sure the application can start and run without crashing. Set resource.requests.ephemeral-storage\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Container Security Context Privileged\",\n                    \"id\": \"container-security-context-privileged\",\n                    \"target_type\": \"Pod\",\n                    \"comment\": \"Makes sure that all pods have a unprivileged security context set\",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"app\",\n                        \"summary\": \"The container is privileged\",\n                        \"description\": \"Set securityContext.privileged to false. Privileged containers can access all devices on the host, and grants almost the same access as non-containerized processes on the host.\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Deployment has host PodAntiAffinity\",\n                    \"id\": \"deployment-has-host-podantiaffinity\",\n                    \"target_type\": \"Deployment\",\n                    \"comment\": \"Makes sure that a podAntiAffinity has been set that prevents multiple pods from being scheduled on the same node. https://kubernetes.io/docs/concepts/configuration/assign-pod-node/\",\n                    \"optional\": false\n                },\n                \"grade\": 5,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Deployment does not have a host podAntiAffinity set\",\n                        \"description\": \"It's recommended to set a podAntiAffinity that stops multiple pods from a deployment from being scheduled on the same node. This increases availability in case the node becomes unavailable.\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Deployment targeted by HPA does not have replicas configured\",\n                    \"id\": \"deployment-targeted-by-hpa-does-not-have-replicas-configured\",\n                    \"target_type\": \"Deployment\",\n                    \"comment\": \"Makes sure that Deployments using a HorizontalPodAutoscaler doesn't have a statically configured replica count set\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": true,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"Skipped because the deployment is not targeted by a HorizontalPodAutoscaler\",\n                        \"description\": \"\"\n                    }\n                ]\n            },\n            {\n                \"check\": {\n                    \"name\": \"Deployment Pod Selector labels match template metadata labels\",\n                    \"id\": \"deployment-pod-selector-labels-match-template-metadata-labels\",\n                    \"target_type\": \"Deployment\",\n                    \"comment\": \"Ensure the StatefulSet selector labels match the template metadata labels.\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Deployment Strategy\",\n                    \"id\": \"deployment-strategy\",\n                    \"target_type\": \"Deployment\",\n                    \"comment\": \"Makes sure that all Deployments targeted by service use RollingUpdate strategy\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Deployment Replicas\",\n                    \"id\": \"deployment-replicas\",\n                    \"target_type\": \"Deployment\",\n                    \"comment\": \"Makes sure that Deployment has multiple replicas\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Deployment has PodDisruptionBudget\",\n                    \"id\": \"deployment-has-poddisruptionbudget\",\n                    \"target_type\": \"Deployment\",\n                    \"comment\": \"Makes sure that all Deployments are targeted by a PDB\",\n                    \"optional\": false\n                },\n                \"grade\": 1,\n                \"skipped\": false,\n                \"comments\": [\n                    {\n                        \"path\": \"\",\n                        \"summary\": \"No matching PodDisruptionBudget was found\",\n                        \"description\": \"It's recommended to define a PodDisruptionBudget to avoid unexpected downtime during Kubernetes maintenance operations, such as when draining a node. \"\n                    }\n                ]\n            }\n        ],\n        \"file_name\": \"/home/vagrant/data/IacContainer/examples/deployment.yaml\",\n        \"file_row\": 1\n    },\n    {\n        \"object_name\": \"Service/v1//insecure-app-service\",\n        \"type_meta\": {\n            \"kind\": \"Service\",\n            \"apiVersion\": \"v1\"\n        },\n        \"object_meta\": {\n            \"name\": \"insecure-app-service\",\n            \"creationTimestamp\": null\n        },\n        \"checks\": [\n            {\n                \"check\": {\n                    \"name\": \"Stable version\",\n                    \"id\": \"stable-version\",\n                    \"target_type\": \"all\",\n                    \"comment\": \"Checks if the object is using a deprecated apiVersion\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Label values\",\n                    \"id\": \"label-values\",\n                    \"target_type\": \"all\",\n                    \"comment\": \"Validates label values\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Service Targets Pod\",\n                    \"id\": \"service-targets-pod\",\n                    \"target_type\": \"Service\",\n                    \"comment\": \"Makes sure that all Services targets a Pod\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            },\n            {\n                \"check\": {\n                    \"name\": \"Service Type\",\n                    \"id\": \"service-type\",\n                    \"target_type\": \"Service\",\n                    \"comment\": \"Makes sure that the Service type is not NodePort\",\n                    \"optional\": false\n                },\n                \"grade\": 10,\n                \"skipped\": false,\n                \"comments\": null\n            }\n        ],\n        \"file_name\": \"/home/vagrant/data/IacContainer/examples/deployment.yaml\",\n        \"file_row\": 95\n    }\n]",
+        "stderr": "",
+        "status": "failed",
+        "json_output": [
+          {
+            "object_name": "Deployment/apps/v1//insecure-app",
+            "type_meta": {
+              "kind": "Deployment",
+              "apiVersion": "apps/v1"
+            },
+            "object_meta": {
+              "name": "insecure-app",
+              "creationTimestamp": null,
+              "labels": {
+                "app": "insecure-app"
+              }
+            },
+            "checks": [
+              {
+                "check": {
+                  "name": "Stable version",
+                  "id": "stable-version",
+                  "target_type": "all",
+                  "comment": "Checks if the object is using a deprecated apiVersion",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Label values",
+                  "id": "label-values",
+                  "target_type": "all",
+                  "comment": "Validates label values",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Pod Probes Identical",
+                  "id": "pod-probes-identical",
+                  "target_type": "Pod",
+                  "comment": "Container has the same readiness and liveness probe",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Pod Topology Spread Constraints",
+                  "id": "pod-topology-spread-constraints",
+                  "target_type": "Pod",
+                  "comment": "Pod Topology Spread Constraints",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Pod Topology Spread Constraints",
+                    "description": "No Pod Topology Spread Constraints set, kube-scheduler defaults assumed"
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Image Tag",
+                  "id": "container-image-tag",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that a explicit non-latest tag is used",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "app",
+                    "summary": "Image with latest tag",
+                    "description": "Using a fixed tag is recommended to avoid accidental upgrades"
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Image Pull Policy",
+                  "id": "container-image-pull-policy",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that the pullPolicy is set to Always. This makes sure that imagePullSecrets are always validated.",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Container Ephemeral Storage Request Equals Limit",
+                  "id": "container-ephemeral-storage-request-equals-limit",
+                  "target_type": "Pod",
+                  "comment": "Make sure all pods have matching ephemeral-storage requests and limits",
+                  "optional": true
+                },
+                "grade": 10,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because container-ephemeral-storage-request-equals-limit is ignored",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Environment Variable Key Duplication",
+                  "id": "environment-variable-key-duplication",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that duplicated environment variable keys are not duplicated",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Pod NetworkPolicy",
+                  "id": "pod-networkpolicy",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all Pods are targeted by a NetworkPolicy",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "The pod does not have a matching NetworkPolicy",
+                    "description": "Create a NetworkPolicy that targets this pod to control who/what can communicate with this pod. Note, this feature needs to be supported by the CNI implementation used in the Kubernetes cluster to have an effect."
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Pod Probes",
+                  "id": "pod-probes",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all Pods have safe probe configurations",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Container Resource Requests Equal Limits",
+                  "id": "container-resource-requests-equal-limits",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have the same requests as limits on resources set.",
+                  "optional": true
+                },
+                "grade": 1,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because container-resource-requests-equal-limits is ignored",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Memory Requests Equal Limits",
+                  "id": "container-memory-requests-equal-limits",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have the same memory requests as limits set.",
+                  "optional": true
+                },
+                "grade": 1,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because container-memory-requests-equal-limits is ignored",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Ports Check",
+                  "id": "container-ports-check",
+                  "target_type": "Pod",
+                  "comment": "Container Ports Checks",
+                  "optional": true
+                },
+                "grade": 10,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because container-ports-check is ignored",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Seccomp Profile",
+                  "id": "container-seccomp-profile",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have at a seccomp policy configured.",
+                  "optional": true
+                },
+                "grade": 5,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because container-seccomp-profile is ignored",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Resources",
+                  "id": "container-resources",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have resource limits and requests set. The --ignore-container-cpu-limit flag can be used to disable the requirement of having a CPU limit",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Container CPU Requests Equal Limits",
+                  "id": "container-cpu-requests-equal-limits",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have the same CPU requests as limits set.",
+                  "optional": true
+                },
+                "grade": 1,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because container-cpu-requests-equal-limits is ignored",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Security Context User Group ID",
+                  "id": "container-security-context-user-group-id",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have a security context with valid UID and GID set ",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "app",
+                    "summary": "The container is running with a low user ID",
+                    "description": "A userid above 10 000 is recommended to avoid conflicts with the host. Set securityContext.runAsUser to a value > 10000"
+                  },
+                  {
+                    "path": "app",
+                    "summary": "The container running with a low group ID",
+                    "description": "A groupid above 10 000 is recommended to avoid conflicts with the host. Set securityContext.runAsGroup to a value > 10000"
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Security Context ReadOnlyRootFilesystem",
+                  "id": "container-security-context-readonlyrootfilesystem",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have a security context with read only filesystem set",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "app",
+                    "summary": "The pod has a container with a writable root filesystem",
+                    "description": "Set securityContext.readOnlyRootFilesystem to true"
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Ephemeral Storage Request and Limit",
+                  "id": "container-ephemeral-storage-request-and-limit",
+                  "target_type": "Pod",
+                  "comment": "Makes sure all pods have ephemeral-storage requests and limits set",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "app",
+                    "summary": "Ephemeral Storage limit is not set",
+                    "description": "Resource limits are recommended to avoid resource DDOS. Set resources.limits.ephemeral-storage"
+                  },
+                  {
+                    "path": "app",
+                    "summary": "Ephemeral Storage request is not set",
+                    "description": "Resource requests are recommended to make sure the application can start and run without crashing. Set resource.requests.ephemeral-storage"
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Container Security Context Privileged",
+                  "id": "container-security-context-privileged",
+                  "target_type": "Pod",
+                  "comment": "Makes sure that all pods have a unprivileged security context set",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "app",
+                    "summary": "The container is privileged",
+                    "description": "Set securityContext.privileged to false. Privileged containers can access all devices on the host, and grants almost the same access as non-containerized processes on the host."
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Deployment has host PodAntiAffinity",
+                  "id": "deployment-has-host-podantiaffinity",
+                  "target_type": "Deployment",
+                  "comment": "Makes sure that a podAntiAffinity has been set that prevents multiple pods from being scheduled on the same node. https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+                  "optional": false
+                },
+                "grade": 5,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Deployment does not have a host podAntiAffinity set",
+                    "description": "It's recommended to set a podAntiAffinity that stops multiple pods from a deployment from being scheduled on the same node. This increases availability in case the node becomes unavailable."
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Deployment targeted by HPA does not have replicas configured",
+                  "id": "deployment-targeted-by-hpa-does-not-have-replicas-configured",
+                  "target_type": "Deployment",
+                  "comment": "Makes sure that Deployments using a HorizontalPodAutoscaler doesn't have a statically configured replica count set",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": true,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "Skipped because the deployment is not targeted by a HorizontalPodAutoscaler",
+                    "description": ""
+                  }
+                ]
+              },
+              {
+                "check": {
+                  "name": "Deployment Pod Selector labels match template metadata labels",
+                  "id": "deployment-pod-selector-labels-match-template-metadata-labels",
+                  "target_type": "Deployment",
+                  "comment": "Ensure the StatefulSet selector labels match the template metadata labels.",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Deployment Strategy",
+                  "id": "deployment-strategy",
+                  "target_type": "Deployment",
+                  "comment": "Makes sure that all Deployments targeted by service use RollingUpdate strategy",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Deployment Replicas",
+                  "id": "deployment-replicas",
+                  "target_type": "Deployment",
+                  "comment": "Makes sure that Deployment has multiple replicas",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Deployment has PodDisruptionBudget",
+                  "id": "deployment-has-poddisruptionbudget",
+                  "target_type": "Deployment",
+                  "comment": "Makes sure that all Deployments are targeted by a PDB",
+                  "optional": false
+                },
+                "grade": 1,
+                "skipped": false,
+                "comments": [
+                  {
+                    "path": "",
+                    "summary": "No matching PodDisruptionBudget was found",
+                    "description": "It's recommended to define a PodDisruptionBudget to avoid unexpected downtime during Kubernetes maintenance operations, such as when draining a node. "
+                  }
+                ]
+              }
+            ],
+            "file_name": "/home/vagrant/data/IacContainer/examples/deployment.yaml",
+            "file_row": 1
+          },
+          {
+            "object_name": "Service/v1//insecure-app-service",
+            "type_meta": {
+              "kind": "Service",
+              "apiVersion": "v1"
+            },
+            "object_meta": {
+              "name": "insecure-app-service",
+              "creationTimestamp": null
+            },
+            "checks": [
+              {
+                "check": {
+                  "name": "Stable version",
+                  "id": "stable-version",
+                  "target_type": "all",
+                  "comment": "Checks if the object is using a deprecated apiVersion",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Label values",
+                  "id": "label-values",
+                  "target_type": "all",
+                  "comment": "Validates label values",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Service Targets Pod",
+                  "id": "service-targets-pod",
+                  "target_type": "Service",
+                  "comment": "Makes sure that all Services targets a Pod",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              },
+              {
+                "check": {
+                  "name": "Service Type",
+                  "id": "service-type",
+                  "target_type": "Service",
+                  "comment": "Makes sure that the Service type is not NodePort",
+                  "optional": false
+                },
+                "grade": 10,
+                "skipped": false,
+                "comments": null
+              }
+            ],
+            "file_name": "/home/vagrant/data/IacContainer/examples/deployment.yaml",
+            "file_row": 95
+          }
+        ]
+      }
+    },
+    "overall_status": "partial_failure"
+  },
+  "examples/Dockerfile": {
+    "metadata": {
+      "file_path": "examples/Dockerfile",
+      "file_name": "Dockerfile",
+      "file_size": 1136,
+      "file_type": "Dockerfile",
+      "scanner": "docker_scanner",
+      "timestamp": 1755029387.7087717
+    },
+    "scanner": "docker_scanner",
+    "tools": {
+      "hadolint": {
+        "tool": "hadolint",
+        "command": "hadolint --format json examples/Dockerfile",
+        "return_code": 1,
+        "stdout": "[{\"code\":\"DL3006\",\"column\":1,\"file\":\"examples/Dockerfile\",\"level\":\"warning\",\"line\":5,\"message\":\"Always tag the version of an image explicitly\"},{\"code\":\"DL3002\",\"column\":1,\"file\":\"examples/Dockerfile\",\"level\":\"warning\",\"line\":8,\"message\":\"Last USER should not be root\"},{\"code\":\"DL3008\",\"column\":1,\"file\":\"examples/Dockerfile\",\"level\":\"warning\",\"line\":11,\"message\":\"Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`\"},{\"code\":\"DL3015\",\"column\":1,\"file\":\"examples/Dockerfile\",\"level\":\"info\",\"line\":11,\"message\":\"Avoid additional packages by specifying `--no-install-recommends`\"}]",
+        "stderr": "",
+        "status": "failed",
+        "json_output": [
+          {
+            "code": "DL3006",
+            "column": 1,
+            "file": "examples/Dockerfile",
+            "level": "warning",
+            "line": 5,
+            "message": "Always tag the version of an image explicitly"
+          },
+          {
+            "code": "DL3002",
+            "column": 1,
+            "file": "examples/Dockerfile",
+            "level": "warning",
+            "line": 8,
+            "message": "Last USER should not be root"
+          },
+          {
+            "code": "DL3008",
+            "column": 1,
+            "file": "examples/Dockerfile",
+            "level": "warning",
+            "line": 11,
+            "message": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`"
+          },
+          {
+            "code": "DL3015",
+            "column": 1,
+            "file": "examples/Dockerfile",
+            "level": "info",
+            "line": 11,
+            "message": "Avoid additional packages by specifying `--no-install-recommends`"
+          }
+        ]
+      },
+      "trivy": {
+        "tool": "trivy",
+        "command": "trivy config --format json examples/Dockerfile",
+        "return_code": 0,
+        "stdout": "{\n  \"SchemaVersion\": 2,\n  \"CreatedAt\": \"2025-08-12T20:33:21.857610839Z\",\n  \"ArtifactName\": \"examples/Dockerfile\",\n  \"ArtifactType\": \"filesystem\",\n  \"Results\": [\n    {\n      \"Target\": \"Dockerfile\",\n      \"Class\": \"config\",\n      \"Type\": \"dockerfile\",\n      \"MisconfSummary\": {\n        \"Successes\": 24,\n        \"Failures\": 3\n      },\n      \"Misconfigurations\": [\n        {\n          \"Type\": \"Dockerfile Security Check\",\n          \"ID\": \"DS001\",\n          \"AVDID\": \"AVD-DS-0001\",\n          \"Title\": \"':latest' tag used\",\n          \"Description\": \"When using a 'FROM' statement you should use a specific tag to avoid uncontrolled behavior when the image is updated.\",\n          \"Message\": \"Specify a tag in the 'FROM' statement for image 'ubuntu'\",\n          \"Namespace\": \"builtin.dockerfile.DS001\",\n          \"Query\": \"data.builtin.dockerfile.DS001.deny\",\n          \"Resolution\": \"Add a tag to the image in the 'FROM' statement\",\n          \"Severity\": \"MEDIUM\",\n          \"PrimaryURL\": \"https://avd.aquasec.com/misconfig/ds001\",\n          \"References\": [\n            \"https://avd.aquasec.com/misconfig/ds001\"\n          ],\n          \"Status\": \"FAIL\",\n          \"CauseMetadata\": {\n            \"Provider\": \"Dockerfile\",\n            \"Service\": \"general\",\n            \"StartLine\": 5,\n            \"EndLine\": 5,\n            \"Code\": {\n              \"Lines\": [\n                {\n                  \"Number\": 5,\n                  \"Content\": \"FROM ubuntu\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[38;5;64mFROM\\u001b[0m\\u001b[38;5;37m ubuntu\\u001b[0m\",\n                  \"FirstCause\": true,\n                  \"LastCause\": true\n                }\n              ]\n            }\n          }\n        },\n        {\n          \"Type\": \"Dockerfile Security Check\",\n          \"ID\": \"DS002\",\n          \"AVDID\": \"AVD-DS-0002\",\n          \"Title\": \"Image user should not be 'root'\",\n          \"Description\": \"Running containers with 'root' user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a 'USER' statement to the Dockerfile.\",\n          \"Message\": \"Last USER command in Dockerfile should not be 'root'\",\n          \"Namespace\": \"builtin.dockerfile.DS002\",\n          \"Query\": \"data.builtin.dockerfile.DS002.deny\",\n          \"Resolution\": \"Add 'USER \\u003cnon root user name\\u003e' line to the Dockerfile\",\n          \"Severity\": \"HIGH\",\n          \"PrimaryURL\": \"https://avd.aquasec.com/misconfig/ds002\",\n          \"References\": [\n            \"https://docs.docker.com/develop/develop-images/dockerfile_best-practices/\",\n            \"https://avd.aquasec.com/misconfig/ds002\"\n          ],\n          \"Status\": \"FAIL\",\n          \"CauseMetadata\": {\n            \"Provider\": \"Dockerfile\",\n            \"Service\": \"general\",\n            \"StartLine\": 8,\n            \"EndLine\": 8,\n            \"Code\": {\n              \"Lines\": [\n                {\n                  \"Number\": 8,\n                  \"Content\": \"USER root\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[38;5;64mUSER\\u001b[0m\\u001b[38;5;37m root\\u001b[0m\",\n                  \"FirstCause\": true,\n                  \"LastCause\": true\n                }\n              ]\n            }\n          }\n        },\n        {\n          \"Type\": \"Dockerfile Security Check\",\n          \"ID\": \"DS029\",\n          \"AVDID\": \"AVD-DS-0029\",\n          \"Title\": \"'apt-get' missing '--no-install-recommends'\",\n          \"Description\": \"'apt-get' install should use '--no-install-recommends' to minimize image size.\",\n          \"Message\": \"'--no-install-recommends' flag is missed: 'apt-get update \\u0026\\u0026 apt-get install -y     curl     wget     vim     \\u0026\\u0026 rm -rf /var/lib/apt/lists/*'\",\n          \"Namespace\": \"builtin.dockerfile.DS029\",\n          \"Query\": \"data.builtin.dockerfile.DS029.deny\",\n          \"Resolution\": \"Add '--no-install-recommends' flag to 'apt-get'\",\n          \"Severity\": \"HIGH\",\n          \"PrimaryURL\": \"https://avd.aquasec.com/misconfig/ds029\",\n          \"References\": [\n            \"https://docs.docker.com/develop/develop-images/dockerfile_best-practices/\",\n            \"https://avd.aquasec.com/misconfig/ds029\"\n          ],\n          \"Status\": \"FAIL\",\n          \"CauseMetadata\": {\n            \"Provider\": \"Dockerfile\",\n            \"Service\": \"general\",\n            \"StartLine\": 11,\n            \"EndLine\": 15,\n            \"Code\": {\n              \"Lines\": [\n                {\n                  \"Number\": 11,\n                  \"Content\": \"RUN apt-get update \\u0026\\u0026 apt-get install -y \\\\\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[38;5;64mRUN\\u001b[0m apt-get update \\u001b[38;5;245m\\u0026\\u0026\\u001b[0m apt-get install -y \\u001b[38;5;124m\\\\\",\n                  \"FirstCause\": true,\n                  \"LastCause\": false\n                },\n                {\n                  \"Number\": 12,\n                  \"Content\": \"    curl \\\\\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[0m    curl \\u001b[38;5;124m\\\\\",\n                  \"FirstCause\": false,\n                  \"LastCause\": false\n                },\n                {\n                  \"Number\": 13,\n                  \"Content\": \"    wget \\\\\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[0m    wget \\u001b[38;5;124m\\\\\",\n                  \"FirstCause\": false,\n                  \"LastCause\": false\n                },\n                {\n                  \"Number\": 14,\n                  \"Content\": \"    vim \\\\\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[0m    vim \\u001b[38;5;124m\\\\\",\n                  \"FirstCause\": false,\n                  \"LastCause\": false\n                },\n                {\n                  \"Number\": 15,\n                  \"Content\": \"    \\u0026\\u0026 rm -rf /var/lib/apt/lists/*\",\n                  \"IsCause\": true,\n                  \"Annotation\": \"\",\n                  \"Truncated\": false,\n                  \"Highlighted\": \"\\u001b[0m    \\u001b[38;5;245m\\u0026\\u0026\\u001b[0m rm -rf /var/lib/apt/lists/*\",\n                  \"FirstCause\": false,\n                  \"LastCause\": true\n                }\n              ]\n            }\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+        "stderr": "2025-08-12T20:33:19Z\tINFO\t[misconfig] Misconfiguration scanning is enabled\n2025-08-12T20:33:21Z\tINFO\tDetected config files\tnum=1\n",
+        "status": "success",
+        "json_output": {
+          "SchemaVersion": 2,
+          "CreatedAt": "2025-08-12T20:33:21.857610839Z",
+          "ArtifactName": "examples/Dockerfile",
+          "ArtifactType": "filesystem",
+          "Results": [
+            {
+              "Target": "Dockerfile",
+              "Class": "config",
+              "Type": "dockerfile",
+              "MisconfSummary": {
+                "Successes": 24,
+                "Failures": 3
+              },
+              "Misconfigurations": [
+                {
+                  "Type": "Dockerfile Security Check",
+                  "ID": "DS001",
+                  "AVDID": "AVD-DS-0001",
+                  "Title": "':latest' tag used",
+                  "Description": "When using a 'FROM' statement you should use a specific tag to avoid uncontrolled behavior when the image is updated.",
+                  "Message": "Specify a tag in the 'FROM' statement for image 'ubuntu'",
+                  "Namespace": "builtin.dockerfile.DS001",
+                  "Query": "data.builtin.dockerfile.DS001.deny",
+                  "Resolution": "Add a tag to the image in the 'FROM' statement",
+                  "Severity": "MEDIUM",
+                  "PrimaryURL": "https://avd.aquasec.com/misconfig/ds001",
+                  "References": [
+                    "https://avd.aquasec.com/misconfig/ds001"
+                  ],
+                  "Status": "FAIL",
+                  "CauseMetadata": {
+                    "Provider": "Dockerfile",
+                    "Service": "general",
+                    "StartLine": 5,
+                    "EndLine": 5,
+                    "Code": {
+                      "Lines": [
+                        {
+                          "Number": 5,
+                          "Content": "FROM ubuntu",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[38;5;64mFROM\u001b[0m\u001b[38;5;37m ubuntu\u001b[0m",
+                          "FirstCause": true,
+                          "LastCause": true
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "Type": "Dockerfile Security Check",
+                  "ID": "DS002",
+                  "AVDID": "AVD-DS-0002",
+                  "Title": "Image user should not be 'root'",
+                  "Description": "Running containers with 'root' user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a 'USER' statement to the Dockerfile.",
+                  "Message": "Last USER command in Dockerfile should not be 'root'",
+                  "Namespace": "builtin.dockerfile.DS002",
+                  "Query": "data.builtin.dockerfile.DS002.deny",
+                  "Resolution": "Add 'USER <non root user name>' line to the Dockerfile",
+                  "Severity": "HIGH",
+                  "PrimaryURL": "https://avd.aquasec.com/misconfig/ds002",
+                  "References": [
+                    "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+                    "https://avd.aquasec.com/misconfig/ds002"
+                  ],
+                  "Status": "FAIL",
+                  "CauseMetadata": {
+                    "Provider": "Dockerfile",
+                    "Service": "general",
+                    "StartLine": 8,
+                    "EndLine": 8,
+                    "Code": {
+                      "Lines": [
+                        {
+                          "Number": 8,
+                          "Content": "USER root",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[38;5;64mUSER\u001b[0m\u001b[38;5;37m root\u001b[0m",
+                          "FirstCause": true,
+                          "LastCause": true
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "Type": "Dockerfile Security Check",
+                  "ID": "DS029",
+                  "AVDID": "AVD-DS-0029",
+                  "Title": "'apt-get' missing '--no-install-recommends'",
+                  "Description": "'apt-get' install should use '--no-install-recommends' to minimize image size.",
+                  "Message": "'--no-install-recommends' flag is missed: 'apt-get update && apt-get install -y     curl     wget     vim     && rm -rf /var/lib/apt/lists/*'",
+                  "Namespace": "builtin.dockerfile.DS029",
+                  "Query": "data.builtin.dockerfile.DS029.deny",
+                  "Resolution": "Add '--no-install-recommends' flag to 'apt-get'",
+                  "Severity": "HIGH",
+                  "PrimaryURL": "https://avd.aquasec.com/misconfig/ds029",
+                  "References": [
+                    "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+                    "https://avd.aquasec.com/misconfig/ds029"
+                  ],
+                  "Status": "FAIL",
+                  "CauseMetadata": {
+                    "Provider": "Dockerfile",
+                    "Service": "general",
+                    "StartLine": 11,
+                    "EndLine": 15,
+                    "Code": {
+                      "Lines": [
+                        {
+                          "Number": 11,
+                          "Content": "RUN apt-get update && apt-get install -y \\",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[38;5;64mRUN\u001b[0m apt-get update \u001b[38;5;245m&&\u001b[0m apt-get install -y \u001b[38;5;124m\\",
+                          "FirstCause": true,
+                          "LastCause": false
+                        },
+                        {
+                          "Number": 12,
+                          "Content": "    curl \\",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[0m    curl \u001b[38;5;124m\\",
+                          "FirstCause": false,
+                          "LastCause": false
+                        },
+                        {
+                          "Number": 13,
+                          "Content": "    wget \\",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[0m    wget \u001b[38;5;124m\\",
+                          "FirstCause": false,
+                          "LastCause": false
+                        },
+                        {
+                          "Number": 14,
+                          "Content": "    vim \\",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[0m    vim \u001b[38;5;124m\\",
+                          "FirstCause": false,
+                          "LastCause": false
+                        },
+                        {
+                          "Number": 15,
+                          "Content": "    && rm -rf /var/lib/apt/lists/*",
+                          "IsCause": true,
+                          "Annotation": "",
+                          "Truncated": false,
+                          "Highlighted": "\u001b[0m    \u001b[38;5;245m&&\u001b[0m rm -rf /var/lib/apt/lists/*",
+                          "FirstCause": false,
+                          "LastCause": true
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "overall_status": "partial_failure"
+  },
+  "examples/main.tf": {
+    "metadata": {
+      "file_path": "examples/main.tf",
+      "file_name": "main.tf",
+      "file_size": 5189,
+      "file_type": "Terraform",
+      "scanner": "terraform_scanner",
+      "timestamp": 1755029391.0997922
+    },
+    "scanner": "terraform_scanner",
+    "tools": {
+      "tfsec": {
+        "tool": "tfsec",
+        "command": "tfsec --format json examples",
+        "return_code": 1,
+        "stdout": "{\n\t\"results\": [\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0124\",\n\t\t\t\"long_id\": \"aws-ec2-add-description-to-security-group-rule\",\n\t\t\t\"rule_description\": \"Missing description for security group rule.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"Descriptions provide context for the firewall rule reasons\",\n\t\t\t\"resolution\": \"Add descriptions for all security groups rules\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/add-description-to-security-group-rule/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule\"\n\t\t\t],\n\t\t\t\"description\": \"Security group rule does not have a description.\",\n\t\t\t\"severity\": \"LOW\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_security_group.open_sg\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 118,\n\t\t\t\t\"end_line\": 123\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0131\",\n\t\t\t\"long_id\": \"aws-ec2-enable-at-rest-encryption\",\n\t\t\t\"rule_description\": \"Instance with unencrypted block device.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"The block device could be compromised and read from\",\n\t\t\t\"resolution\": \"Turn on encryption for all block devices\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/enable-at-rest-encryption/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices\"\n\t\t\t],\n\t\t\t\"description\": \"Root block device is not encrypted.\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_instance.web_server\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 72,\n\t\t\t\t\"end_line\": 72\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0028\",\n\t\t\t\"long_id\": \"aws-ec2-enforce-http-token-imds\",\n\t\t\t\"rule_description\": \"aws_instance should activate session tokens for Instance Metadata Service.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"Instance metadata service can be interacted with freely\",\n\t\t\t\"resolution\": \"Enable HTTP token requirement for IMDS\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/enforce-http-token-imds/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options\"\n\t\t\t],\n\t\t\t\"description\": \"Instance does not require IMDS access to require a token\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_instance.web_server\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 60,\n\t\t\t\t\"end_line\": 82\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0104\",\n\t\t\t\"long_id\": \"aws-ec2-no-public-egress-sgr\",\n\t\t\t\"rule_description\": \"An egress security group rule allows traffic to /0.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"Your port is egressing data to the internet\",\n\t\t\t\"resolution\": \"Set a more restrictive cidr range\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-egress-sgr/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group\"\n\t\t\t],\n\t\t\t\"description\": \"Security group rule allows egress to multiple public internet addresses.\",\n\t\t\t\"severity\": \"CRITICAL\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_security_group.open_sg\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 122,\n\t\t\t\t\"end_line\": 122\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0107\",\n\t\t\t\"long_id\": \"aws-ec2-no-public-ingress-sgr\",\n\t\t\t\"rule_description\": \"An ingress security group rule allows traffic from /0.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"Your port exposed to the internet\",\n\t\t\t\"resolution\": \"Set a more restrictive cidr range\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-ingress-sgr/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks\"\n\t\t\t],\n\t\t\t\"description\": \"Security group rule allows ingress from public internet.\",\n\t\t\t\"severity\": \"CRITICAL\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_security_group.open_sg\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 96,\n\t\t\t\t\"end_line\": 96\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0107\",\n\t\t\t\"long_id\": \"aws-ec2-no-public-ingress-sgr\",\n\t\t\t\"rule_description\": \"An ingress security group rule allows traffic from /0.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"Your port exposed to the internet\",\n\t\t\t\"resolution\": \"Set a more restrictive cidr range\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-ingress-sgr/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks\"\n\t\t\t],\n\t\t\t\"description\": \"Security group rule allows ingress from public internet.\",\n\t\t\t\"severity\": \"CRITICAL\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_security_group.open_sg\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 114,\n\t\t\t\t\"end_line\": 114\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0107\",\n\t\t\t\"long_id\": \"aws-ec2-no-public-ingress-sgr\",\n\t\t\t\"rule_description\": \"An ingress security group rule allows traffic from /0.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"ec2\",\n\t\t\t\"impact\": \"Your port exposed to the internet\",\n\t\t\t\"resolution\": \"Set a more restrictive cidr range\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-ingress-sgr/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks\"\n\t\t\t],\n\t\t\t\"description\": \"Security group rule allows ingress from public internet.\",\n\t\t\t\"severity\": \"CRITICAL\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_security_group.open_sg\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 105,\n\t\t\t\t\"end_line\": 105\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0177\",\n\t\t\t\"long_id\": \"aws-rds-enable-deletion-protection\",\n\t\t\t\"rule_description\": \"RDS Deletion Protection Disabled\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"\",\n\t\t\t\"resolution\": \"Modify the RDS instances to enable deletion protection.\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-deletion-protection/\"\n\t\t\t],\n\t\t\t\"description\": \"Instance does not have Deletion Protection enabled\",\n\t\t\t\"severity\": \"MEDIUM\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database.deletion_protection\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 153,\n\t\t\t\t\"end_line\": 153\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0176\",\n\t\t\t\"long_id\": \"aws-rds-enable-iam-auth\",\n\t\t\t\"rule_description\": \"RDS IAM Database Authentication Disabled\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"\",\n\t\t\t\"resolution\": \"Modify the PostgreSQL and MySQL type RDS instances to enable IAM database authentication.\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-iam-auth/\"\n\t\t\t],\n\t\t\t\"description\": \"Instance does not have IAM Authentication enabled\",\n\t\t\t\"severity\": \"MEDIUM\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 131,\n\t\t\t\t\"end_line\": 158\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0133\",\n\t\t\t\"long_id\": \"aws-rds-enable-performance-insights\",\n\t\t\t\"rule_description\": \"Enable Performance Insights to detect potential problems\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"Without adequate monitoring, performance related issues may go unreported and potentially lead to compromise.\",\n\t\t\t\"resolution\": \"Enable performance insights\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-performance-insights/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster_instance#performance_insights_kms_key_id\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#performance_insights_kms_key_id\"\n\t\t\t],\n\t\t\t\"description\": \"Instance does not have performance insights enabled.\",\n\t\t\t\"severity\": \"LOW\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 131,\n\t\t\t\t\"end_line\": 158\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0180\",\n\t\t\t\"long_id\": \"aws-rds-enable-public-access\",\n\t\t\t\"rule_description\": \"RDS Publicly Accessible\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"\",\n\t\t\t\"resolution\": \"Remove the public endpoint from the RDS instance'\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-public-access/\"\n\t\t\t],\n\t\t\t\"description\": \"Instance has Public Access enabled\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database.publicly_accessible\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 147,\n\t\t\t\t\"end_line\": 147\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0080\",\n\t\t\t\"long_id\": \"aws-rds-encrypt-instance-storage-data\",\n\t\t\t\"rule_description\": \"RDS encryption has not been enabled at a DB Instance level.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"Data can be read from RDS instances if compromised\",\n\t\t\t\"resolution\": \"Enable encryption for RDS instances\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/encrypt-instance-storage-data/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance\"\n\t\t\t],\n\t\t\t\"description\": \"Instance does not have storage encryption enabled.\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 140,\n\t\t\t\t\"end_line\": 140\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0082\",\n\t\t\t\"long_id\": \"aws-rds-no-public-db-access\",\n\t\t\t\"rule_description\": \"A database resource is marked as publicly accessible.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"The database instance is publicly accessible\",\n\t\t\t\"resolution\": \"Set the database to not be publicly accessible\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/no-public-db-access/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance\"\n\t\t\t],\n\t\t\t\"description\": \"Instance is exposed publicly.\",\n\t\t\t\"severity\": \"CRITICAL\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 147,\n\t\t\t\t\"end_line\": 147\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0077\",\n\t\t\t\"long_id\": \"aws-rds-specify-backup-retention\",\n\t\t\t\"rule_description\": \"RDS Cluster and RDS instance should have backup retention longer than default 1 day\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"rds\",\n\t\t\t\"impact\": \"Potential loss of data and short opportunity for recovery\",\n\t\t\t\"resolution\": \"Explicitly set the retention period to greater than the default\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/specify-backup-retention/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster#backup_retention_period\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#backup_retention_period\"\n\t\t\t],\n\t\t\t\"description\": \"Instance has very low backup retention period.\",\n\t\t\t\"severity\": \"MEDIUM\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_db_instance.database\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 150,\n\t\t\t\t\"end_line\": 150\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0086\",\n\t\t\t\"long_id\": \"aws-s3-block-public-acls\",\n\t\t\t\"rule_description\": \"S3 Access block should block public ACL\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"PUT calls with public ACLs specified can make objects public\",\n\t\t\t\"resolution\": \"Enable blocking any PUT calls with a public ACL specified\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/block-public-acls/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_acls\"\n\t\t\t],\n\t\t\t\"description\": \"Public access block does not block public ACLs\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket_public_access_block.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 35,\n\t\t\t\t\"end_line\": 35\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0087\",\n\t\t\t\"long_id\": \"aws-s3-block-public-policy\",\n\t\t\t\"rule_description\": \"S3 Access block should block public policy\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"Users could put a policy that allows public access\",\n\t\t\t\"resolution\": \"Prevent policies that allow public access being PUT\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/block-public-policy/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_policy\"\n\t\t\t],\n\t\t\t\"description\": \"Public access block does not block public policies\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket_public_access_block.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 36,\n\t\t\t\t\"end_line\": 36\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0088\",\n\t\t\t\"long_id\": \"aws-s3-enable-bucket-encryption\",\n\t\t\t\"rule_description\": \"Unencrypted S3 bucket.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"The bucket objects could be read if compromised\",\n\t\t\t\"resolution\": \"Configure bucket encryption\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/enable-bucket-encryption/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption\"\n\t\t\t],\n\t\t\t\"description\": \"Bucket does not have encryption enabled\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 23,\n\t\t\t\t\"end_line\": 29\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0089\",\n\t\t\t\"long_id\": \"aws-s3-enable-bucket-logging\",\n\t\t\t\"rule_description\": \"S3 Bucket does not have logging enabled.\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"There is no way to determine the access to this bucket\",\n\t\t\t\"resolution\": \"Add a logging block to the resource to enable access logging\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/enable-bucket-logging/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket\"\n\t\t\t],\n\t\t\t\"description\": \"Bucket does not have logging enabled\",\n\t\t\t\"severity\": \"MEDIUM\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 23,\n\t\t\t\t\"end_line\": 29\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0090\",\n\t\t\t\"long_id\": \"aws-s3-enable-versioning\",\n\t\t\t\"rule_description\": \"S3 Data should be versioned\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"Deleted or modified data would not be recoverable\",\n\t\t\t\"resolution\": \"Enable versioning to protect against accidental/malicious removal or modification\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/enable-versioning/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#versioning\"\n\t\t\t],\n\t\t\t\"description\": \"Bucket does not have versioning enabled\",\n\t\t\t\"severity\": \"MEDIUM\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 23,\n\t\t\t\t\"end_line\": 29\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0132\",\n\t\t\t\"long_id\": \"aws-s3-encryption-customer-key\",\n\t\t\t\"rule_description\": \"S3 encryption should use Customer Managed Keys\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"Using AWS managed keys does not allow for fine grained control\",\n\t\t\t\"resolution\": \"Enable encryption using customer managed keys\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/encryption-customer-key/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption\"\n\t\t\t],\n\t\t\t\"description\": \"Bucket does not encrypt data with a customer managed key.\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 23,\n\t\t\t\t\"end_line\": 29\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0091\",\n\t\t\t\"long_id\": \"aws-s3-ignore-public-acls\",\n\t\t\t\"rule_description\": \"S3 Access Block should Ignore Public Acl\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"PUT calls with public ACLs specified can make objects public\",\n\t\t\t\"resolution\": \"Enable ignoring the application of public ACLs in PUT calls\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/ignore-public-acls/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#ignore_public_acls\"\n\t\t\t],\n\t\t\t\"description\": \"Public access block does not ignore public ACLs\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket_public_access_block.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 37,\n\t\t\t\t\"end_line\": 37\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"rule_id\": \"AVD-AWS-0093\",\n\t\t\t\"long_id\": \"aws-s3-no-public-buckets\",\n\t\t\t\"rule_description\": \"S3 Access block should restrict public bucket to limit access\",\n\t\t\t\"rule_provider\": \"aws\",\n\t\t\t\"rule_service\": \"s3\",\n\t\t\t\"impact\": \"Public buckets can be accessed by anyone\",\n\t\t\t\"resolution\": \"Limit the access to public buckets to only the owner or AWS Services (eg; CloudFront)\",\n\t\t\t\"links\": [\n\t\t\t\t\"https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/no-public-buckets/\",\n\t\t\t\t\"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#restrict_public_buckets¡\"\n\t\t\t],\n\t\t\t\"description\": \"Public access block does not restrict public buckets\",\n\t\t\t\"severity\": \"HIGH\",\n\t\t\t\"warning\": false,\n\t\t\t\"status\": 0,\n\t\t\t\"resource\": \"aws_s3_bucket_public_access_block.public_bucket\",\n\t\t\t\"location\": {\n\t\t\t\t\"filename\": \"/home/vagrant/data/IacContainer/examples/main.tf\",\n\t\t\t\t\"start_line\": 38,\n\t\t\t\t\"end_line\": 38\n\t\t\t}\n\t\t}\n\t]\n}\n",
+        "stderr": "\n======================================================\ntfsec is joining the Trivy family\n\ntfsec will continue to remain available \nfor the time being, although our engineering \nattention will be directed at Trivy going forward.\n\nYou can read more here: \nhttps://github.com/aquasecurity/tfsec/discussions/1994\n======================================================\n",
+        "status": "failed",
+        "json_output": {
+          "results": [
+            {
+              "rule_id": "AVD-AWS-0124",
+              "long_id": "aws-ec2-add-description-to-security-group-rule",
+              "rule_description": "Missing description for security group rule.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "Descriptions provide context for the firewall rule reasons",
+              "resolution": "Add descriptions for all security groups rules",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/add-description-to-security-group-rule/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule"
+              ],
+              "description": "Security group rule does not have a description.",
+              "severity": "LOW",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_security_group.open_sg",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 118,
+                "end_line": 123
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0131",
+              "long_id": "aws-ec2-enable-at-rest-encryption",
+              "rule_description": "Instance with unencrypted block device.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "The block device could be compromised and read from",
+              "resolution": "Turn on encryption for all block devices",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/enable-at-rest-encryption/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices"
+              ],
+              "description": "Root block device is not encrypted.",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_instance.web_server",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 72,
+                "end_line": 72
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0028",
+              "long_id": "aws-ec2-enforce-http-token-imds",
+              "rule_description": "aws_instance should activate session tokens for Instance Metadata Service.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "Instance metadata service can be interacted with freely",
+              "resolution": "Enable HTTP token requirement for IMDS",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/enforce-http-token-imds/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options"
+              ],
+              "description": "Instance does not require IMDS access to require a token",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_instance.web_server",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 60,
+                "end_line": 82
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0104",
+              "long_id": "aws-ec2-no-public-egress-sgr",
+              "rule_description": "An egress security group rule allows traffic to /0.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "Your port is egressing data to the internet",
+              "resolution": "Set a more restrictive cidr range",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-egress-sgr/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group"
+              ],
+              "description": "Security group rule allows egress to multiple public internet addresses.",
+              "severity": "CRITICAL",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_security_group.open_sg",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 122,
+                "end_line": 122
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0107",
+              "long_id": "aws-ec2-no-public-ingress-sgr",
+              "rule_description": "An ingress security group rule allows traffic from /0.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "Your port exposed to the internet",
+              "resolution": "Set a more restrictive cidr range",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-ingress-sgr/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks"
+              ],
+              "description": "Security group rule allows ingress from public internet.",
+              "severity": "CRITICAL",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_security_group.open_sg",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 96,
+                "end_line": 96
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0107",
+              "long_id": "aws-ec2-no-public-ingress-sgr",
+              "rule_description": "An ingress security group rule allows traffic from /0.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "Your port exposed to the internet",
+              "resolution": "Set a more restrictive cidr range",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-ingress-sgr/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks"
+              ],
+              "description": "Security group rule allows ingress from public internet.",
+              "severity": "CRITICAL",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_security_group.open_sg",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 114,
+                "end_line": 114
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0107",
+              "long_id": "aws-ec2-no-public-ingress-sgr",
+              "rule_description": "An ingress security group rule allows traffic from /0.",
+              "rule_provider": "aws",
+              "rule_service": "ec2",
+              "impact": "Your port exposed to the internet",
+              "resolution": "Set a more restrictive cidr range",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/ec2/no-public-ingress-sgr/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks"
+              ],
+              "description": "Security group rule allows ingress from public internet.",
+              "severity": "CRITICAL",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_security_group.open_sg",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 105,
+                "end_line": 105
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0177",
+              "long_id": "aws-rds-enable-deletion-protection",
+              "rule_description": "RDS Deletion Protection Disabled",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "",
+              "resolution": "Modify the RDS instances to enable deletion protection.",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-deletion-protection/"
+              ],
+              "description": "Instance does not have Deletion Protection enabled",
+              "severity": "MEDIUM",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database.deletion_protection",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 153,
+                "end_line": 153
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0176",
+              "long_id": "aws-rds-enable-iam-auth",
+              "rule_description": "RDS IAM Database Authentication Disabled",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "",
+              "resolution": "Modify the PostgreSQL and MySQL type RDS instances to enable IAM database authentication.",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-iam-auth/"
+              ],
+              "description": "Instance does not have IAM Authentication enabled",
+              "severity": "MEDIUM",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 131,
+                "end_line": 158
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0133",
+              "long_id": "aws-rds-enable-performance-insights",
+              "rule_description": "Enable Performance Insights to detect potential problems",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "Without adequate monitoring, performance related issues may go unreported and potentially lead to compromise.",
+              "resolution": "Enable performance insights",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-performance-insights/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster_instance#performance_insights_kms_key_id",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#performance_insights_kms_key_id"
+              ],
+              "description": "Instance does not have performance insights enabled.",
+              "severity": "LOW",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 131,
+                "end_line": 158
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0180",
+              "long_id": "aws-rds-enable-public-access",
+              "rule_description": "RDS Publicly Accessible",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "",
+              "resolution": "Remove the public endpoint from the RDS instance'",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/enable-public-access/"
+              ],
+              "description": "Instance has Public Access enabled",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database.publicly_accessible",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 147,
+                "end_line": 147
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0080",
+              "long_id": "aws-rds-encrypt-instance-storage-data",
+              "rule_description": "RDS encryption has not been enabled at a DB Instance level.",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "Data can be read from RDS instances if compromised",
+              "resolution": "Enable encryption for RDS instances",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/encrypt-instance-storage-data/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance"
+              ],
+              "description": "Instance does not have storage encryption enabled.",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 140,
+                "end_line": 140
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0082",
+              "long_id": "aws-rds-no-public-db-access",
+              "rule_description": "A database resource is marked as publicly accessible.",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "The database instance is publicly accessible",
+              "resolution": "Set the database to not be publicly accessible",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/no-public-db-access/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance"
+              ],
+              "description": "Instance is exposed publicly.",
+              "severity": "CRITICAL",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 147,
+                "end_line": 147
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0077",
+              "long_id": "aws-rds-specify-backup-retention",
+              "rule_description": "RDS Cluster and RDS instance should have backup retention longer than default 1 day",
+              "rule_provider": "aws",
+              "rule_service": "rds",
+              "impact": "Potential loss of data and short opportunity for recovery",
+              "resolution": "Explicitly set the retention period to greater than the default",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/rds/specify-backup-retention/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster#backup_retention_period",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#backup_retention_period"
+              ],
+              "description": "Instance has very low backup retention period.",
+              "severity": "MEDIUM",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_db_instance.database",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 150,
+                "end_line": 150
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0086",
+              "long_id": "aws-s3-block-public-acls",
+              "rule_description": "S3 Access block should block public ACL",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "PUT calls with public ACLs specified can make objects public",
+              "resolution": "Enable blocking any PUT calls with a public ACL specified",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/block-public-acls/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_acls"
+              ],
+              "description": "Public access block does not block public ACLs",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket_public_access_block.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 35,
+                "end_line": 35
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0087",
+              "long_id": "aws-s3-block-public-policy",
+              "rule_description": "S3 Access block should block public policy",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "Users could put a policy that allows public access",
+              "resolution": "Prevent policies that allow public access being PUT",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/block-public-policy/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_policy"
+              ],
+              "description": "Public access block does not block public policies",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket_public_access_block.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 36,
+                "end_line": 36
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0088",
+              "long_id": "aws-s3-enable-bucket-encryption",
+              "rule_description": "Unencrypted S3 bucket.",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "The bucket objects could be read if compromised",
+              "resolution": "Configure bucket encryption",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/enable-bucket-encryption/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption"
+              ],
+              "description": "Bucket does not have encryption enabled",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 23,
+                "end_line": 29
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0089",
+              "long_id": "aws-s3-enable-bucket-logging",
+              "rule_description": "S3 Bucket does not have logging enabled.",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "There is no way to determine the access to this bucket",
+              "resolution": "Add a logging block to the resource to enable access logging",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/enable-bucket-logging/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket"
+              ],
+              "description": "Bucket does not have logging enabled",
+              "severity": "MEDIUM",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 23,
+                "end_line": 29
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0090",
+              "long_id": "aws-s3-enable-versioning",
+              "rule_description": "S3 Data should be versioned",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "Deleted or modified data would not be recoverable",
+              "resolution": "Enable versioning to protect against accidental/malicious removal or modification",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/enable-versioning/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#versioning"
+              ],
+              "description": "Bucket does not have versioning enabled",
+              "severity": "MEDIUM",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 23,
+                "end_line": 29
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0132",
+              "long_id": "aws-s3-encryption-customer-key",
+              "rule_description": "S3 encryption should use Customer Managed Keys",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "Using AWS managed keys does not allow for fine grained control",
+              "resolution": "Enable encryption using customer managed keys",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/encryption-customer-key/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption"
+              ],
+              "description": "Bucket does not encrypt data with a customer managed key.",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 23,
+                "end_line": 29
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0091",
+              "long_id": "aws-s3-ignore-public-acls",
+              "rule_description": "S3 Access Block should Ignore Public Acl",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "PUT calls with public ACLs specified can make objects public",
+              "resolution": "Enable ignoring the application of public ACLs in PUT calls",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/ignore-public-acls/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#ignore_public_acls"
+              ],
+              "description": "Public access block does not ignore public ACLs",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket_public_access_block.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 37,
+                "end_line": 37
+              }
+            },
+            {
+              "rule_id": "AVD-AWS-0093",
+              "long_id": "aws-s3-no-public-buckets",
+              "rule_description": "S3 Access block should restrict public bucket to limit access",
+              "rule_provider": "aws",
+              "rule_service": "s3",
+              "impact": "Public buckets can be accessed by anyone",
+              "resolution": "Limit the access to public buckets to only the owner or AWS Services (eg; CloudFront)",
+              "links": [
+                "https://aquasecurity.github.io/tfsec/v1.28.14/checks/aws/s3/no-public-buckets/",
+                "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#restrict_public_buckets¡"
+              ],
+              "description": "Public access block does not restrict public buckets",
+              "severity": "HIGH",
+              "warning": false,
+              "status": 0,
+              "resource": "aws_s3_bucket_public_access_block.public_bucket",
+              "location": {
+                "filename": "/home/vagrant/data/IacContainer/examples/main.tf",
+                "start_line": 38,
+                "end_line": 38
+              }
+            }
+          ]
+        }
+      }
+    },
+    "overall_status": "partial_failure"
+  }
+}

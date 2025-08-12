@@ -5,34 +5,20 @@ Scans Dockerfiles for security issues using hadolint and trivy.
 """
 
 import os
-from typing import Dict, List, Any
+from typing import Dict, Any, List
 
 from base_scanner import BaseScanner
 
 
 class DockerScanner(BaseScanner):
-    """
-    Security scanner for Dockerfiles and Docker-related files.
-    
-    Uses hadolint for Dockerfile linting and trivy for configuration scanning.
-    """
+    """Security scanner for Dockerfiles and Docker-related files."""
     
     def __init__(self, config_manager, scanner_name: str):
         """Initialize Docker scanner."""
         super().__init__(config_manager, scanner_name)
     
     def can_scan_file(self, file_path: str, file_name: str, file_ext: str) -> bool:
-        """
-        Check if this scanner can handle the given file.
-        
-        Args:
-            file_path: Full path to the file
-            file_name: Name of the file
-            file_ext: File extension (with dot)
-            
-        Returns:
-            True if this scanner can scan the file, False otherwise
-        """
+        """Check if this scanner can handle the given file."""
         # Check for Dockerfile (case insensitive)
         if file_name.lower() in ['dockerfile', 'dockerfile.']:
             return True
@@ -44,7 +30,7 @@ class DockerScanner(BaseScanner):
         # Check if file contains Docker-related content
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read(1024).lower()  # Read first 1KB
+                content = f.read(1024).lower()
                 if any(keyword in content for keyword in ['from ', 'run ', 'cmd ', 'entrypoint ']):
                     return True
         except Exception:
@@ -53,29 +39,17 @@ class DockerScanner(BaseScanner):
         return False
     
     def scan(self, file_path: str) -> Dict[str, Any]:
-        """
-        Perform security scan on Dockerfile.
-        
-        Args:
-            file_path: Path to the Dockerfile to scan
-            
-        Returns:
-            Dictionary containing scan results
-        """
-        # Validate file
+        """Perform security scan on Dockerfile."""
         self._validate_file_exists(file_path)
-        
-        # Get metadata
         metadata = self._get_scan_metadata(file_path)
         
-        # Initialize results
         scan_results = {
             "metadata": metadata,
             "scanner": "docker_scanner",
             "tools": {}
         }
         
-        # Run hadolint (Dockerfile linter)
+        # Run hadolint
         try:
             hadolint_result = self._run_tool("hadolint", file_path)
             scan_results["tools"]["hadolint"] = hadolint_result
@@ -86,7 +60,7 @@ class DockerScanner(BaseScanner):
                 "reason": str(e)
             }
         
-        # Run trivy (configuration scanner)
+        # Run trivy
         try:
             trivy_result = self._run_tool("trivy", file_path)
             scan_results["tools"]["trivy"] = trivy_result
@@ -97,52 +71,22 @@ class DockerScanner(BaseScanner):
                 "reason": str(e)
             }
         
-        # Determine overall scan status
         scan_results["overall_status"] = self._determine_overall_status(scan_results["tools"])
-        
         return scan_results
     
     def get_description(self) -> str:
-        """
-        Get description of this scanner.
-        
-        Returns:
-            Description string
-        """
+        """Get description of this scanner."""
         return "Dockerfile security scanner using hadolint and trivy"
     
     def get_supported_extensions(self) -> List[str]:
-        """
-        Get list of supported file extensions.
-        
-        Returns:
-            List of supported extensions
-        """
+        """Get list of supported file extensions."""
         return ["Dockerfile", "dockerfile", ".dockerfile"]
     
-    def get_required_tools(self) -> List[str]:
-        """
-        Get list of required CLI tools.
-        
-        Returns:
-            List of required tool names
-        """
-        return ["hadolint", "trivy"]
-    
     def _determine_overall_status(self, tools_results: Dict[str, Any]) -> str:
-        """
-        Determine overall scan status based on tool results.
-        
-        Args:
-            tools_results: Results from all tools
-            
-        Returns:
-            Overall status string
-        """
+        """Determine overall scan status based on tool results."""
         if not tools_results:
             return "no_tools_available"
         
-        # Check if any tools failed
         failed_tools = [
             tool for tool, result in tools_results.items()
             if result.get("status") == "failed"
@@ -151,7 +95,6 @@ class DockerScanner(BaseScanner):
         if failed_tools:
             return "partial_failure"
         
-        # Check if any tools succeeded
         successful_tools = [
             tool for tool, result in tools_results.items()
             if result.get("status") == "success"
