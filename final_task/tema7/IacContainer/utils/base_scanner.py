@@ -11,7 +11,7 @@ import sys
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Any
 
-from config_manager import ConfigManager
+from .config_manager import ConfigManager
 
 
 class BaseScanner(ABC):

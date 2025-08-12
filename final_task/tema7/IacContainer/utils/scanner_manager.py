@@ -9,8 +9,8 @@ import importlib
 import os
 from typing import Dict, List, Optional, Type, Any
 
-from base_scanner import BaseScanner
-from config_manager import ConfigManager
+from .base_scanner import BaseScanner
+from .config_manager import ConfigManager
 
 
 class ScannerManager:
@@ -34,46 +34,33 @@ class ScannerManager:
     
     def _load_scanners(self) -> None:
         """Load all available scanner modules."""
-        scanners_dir = "scanners"
-        
-        if not os.path.exists(scanners_dir):
-            print(f"Warning: Scanners directory '{scanners_dir}' not found")
-            return
-        
-        # Get list of Python files in scanners directory
-        scanner_files = [
-            f for f in os.listdir(scanners_dir)
-            if f.endswith('.py') and not f.startswith('__')
-        ]
-        
-        for scanner_file in scanner_files:
-            scanner_name = scanner_file[:-3]  # Remove .py extension
+        try:
+            # Import scanner modules directly
+            from .scanners.docker_scanner import DockerScanner
+            from .scanners.k8s_scanner import K8sScanner
+            from .scanners.terraform_scanner import TerraformScanner
             
-            # Check if scanner is active in configuration
-            if not self.config_manager.is_scanner_active(scanner_name):
-                continue
+            # Define scanner classes
+            scanner_classes = {
+                'docker_scanner': DockerScanner,
+                'k8s_scanner': K8sScanner,
+                'terraform_scanner': TerraformScanner
+            }
             
-            try:
-                # Import scanner module
-                module_name = f"scanners.{scanner_name}"
-                module = importlib.import_module(module_name)
-                
-                # Look for scanner class (convention: class name should match file name in CamelCase)
-                class_name = self._to_camel_case(scanner_name)
-                scanner_class = getattr(module, class_name, None)
-                
-                if scanner_class and issubclass(scanner_class, BaseScanner):
-                    # Initialize scanner instance with the correct scanner name
-                    scanner_instance = scanner_class(self.config_manager, scanner_name)
-                    self.scanners[scanner_name] = scanner_instance
-                    print(f"Loaded scanner: {scanner_name}")
-                else:
-                    print(f"Warning: No valid scanner class found in {scanner_file}")
-                    
-            except ImportError as e:
-                print(f"Warning: Could not import scanner {scanner_name}: {str(e)}")
-            except Exception as e:
-                print(f"Warning: Error loading scanner {scanner_name}: {str(e)}")
+            # Load active scanners
+            for scanner_name, scanner_class in scanner_classes.items():
+                if self.config_manager.is_scanner_active(scanner_name):
+                    try:
+                        scanner_instance = scanner_class(self.config_manager, scanner_name)
+                        self.scanners[scanner_name] = scanner_instance
+                        print(f"Loaded scanner: {scanner_name}")
+                    except Exception as e:
+                        print(f"Warning: Error loading scanner {scanner_name}: {str(e)}")
+                        
+        except ImportError as e:
+            print(f"Warning: Could not import scanner modules: {str(e)}")
+        except Exception as e:
+            print(f"Warning: Error during scanner loading: {str(e)}")
     
     def _to_camel_case(self, snake_case: str) -> str:
         """

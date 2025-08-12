@@ -8,7 +8,7 @@ import os
 import re
 from typing import Dict, List, Any
 
-from base_scanner import BaseScanner
+from ..base_scanner import BaseScanner
 
 
 class K8sScanner(BaseScanner):

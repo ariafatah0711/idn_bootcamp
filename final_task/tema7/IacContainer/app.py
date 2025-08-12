@@ -15,8 +15,8 @@ import os
 import sys
 from typing import Dict, List, Optional
 
-from scanner_manager import ScannerManager
-from config_manager import ConfigManager
+from utils.scanner_manager import ScannerManager
+from utils.config_manager import ConfigManager
 
 
 class SecurityScannerApp:

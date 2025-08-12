@@ -7,7 +7,7 @@ Scans Dockerfiles for security issues using hadolint and trivy.
 import os
 from typing import Dict, Any, List
 
-from base_scanner import BaseScanner
+from ..base_scanner import BaseScanner
 
 
 class DockerScanner(BaseScanner):
