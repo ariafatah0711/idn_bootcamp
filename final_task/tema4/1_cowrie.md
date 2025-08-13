@@ -104,7 +104,7 @@ mv /home/phil /home/joe
 
 ## setup docker
 ```bash
-docker run -p 2222:2222 cowrie/cowrie:latest
+docker run --name cowrie -p 2222:2222 cowrie/cowrie:latest
 ssh -p 2222 root@localhost
 # default cred root:123
 # default user phil:123

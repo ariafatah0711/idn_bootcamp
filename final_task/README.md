@@ -18,12 +18,12 @@ Merancang dan membangun platform simulasi serangan siber yang mengikuti skenario
 ### Hasil yang Diharapkan:
 1. Sistem berbasis CLI atau web yang dapat menjalankan rangkaian serangan (kill chain)
    - Caldera & Infected Monkey & Invoke Automic
-     - Caldera → Melakukan Procedure Nmap → Sofware OS 
+     - Caldera → Melakukan Procedure Nmap → Sofware OS
 2. Dokumentasi pemetaan teknik ke MITRE ATT&CK
-   - 1 Teknik ( T1592.002 Host Discover Software ) 
-     - Catat → Procedure → Syntax Hacker ( nmap -sV → Software Version , Log Php /phpinfo.php → Software, etc .. 
+   - 1 Teknik ( T1592.002 Host Discover Software )
+     - Catat → Procedure → Syntax Hacker ( nmap -sV → Software Version , Log Php /phpinfo.php → Software, etc ..
      - Hacker bisa dapetin informasi software dengan melakukan nmap seperti ```nmap -sV IP```
-   - Kill Chain ( APT29 ) 
+   - Kill Chain ( APT29 )
      - Persistenc e
        - Cron Job: Syntax, How To Detect, Remedetaion, Saran
      - Publik Key Abuse
@@ -44,8 +44,8 @@ Merancang dan membangun platform simulasi serangan siber yang mengikuti skenario
   - Caldera
   - Invokede
 - Execution si caldera / invoked
-  - Invoke-testRedtead → 
-- Minotiring -> Terdeteksi atau tidak 
+  - Invoke-testRedtead →
+- Minotiring -> Terdeteksi atau tidak
 - Rmediaton → Report
 
 ---
@@ -59,7 +59,7 @@ Membangun framework C2 modular yang dirancang untuk menghindari deteksi oleh sis
 ### Hasil yang Diharapkan:
 1. Implementasi server dan agen C2 yang dapat dikustomisasi
 2. Uji coba komunikasi tersembunyi terhadap Suricata/IDS
-   - Crafting Packet Scapy 
+   - Crafting Packet Scapy
      - Python Script → Abuse Firewall Rules → FireWallking
 3. Analisis lalu lintas jaringan dan dokumentasi evasion
 
@@ -68,7 +68,7 @@ Membangun framework C2 modular yang dirancang untuk menghindari deteksi oleh sis
 ## C. tema 3
 Pengembangan Sistem Deteksi Intrusi Berbasis Anomali untuk Suricata
 
-### Deskripsi Tugas: 
+### Deskripsi Tugas:
 Mengembangkan modul deteksi berbasis perilaku (anomali) sebagai pelengkap sistem IDS Suricata yang berbasis signature. Sistem harus mampu membedakan aktivitas normal dan anomali pada trafik jaringan
 
 ### Hasil yang Diharapkan:
@@ -78,7 +78,7 @@ Mengembangkan modul deteksi berbasis perilaku (anomali) sebagai pelengkap sistem
 
 ---
 
-## D. tema 4 
+## D. tema 4
 ### Implementasi Honeypot untuk Deteksi Dini dan Koleksi Intelijen Ancaman
 
 ### Deskripsi Tugas:
@@ -120,7 +120,7 @@ Mengembangkan perangkat analisis statis dan dinamis terhadap aplikasi Android ya
 ## G. tema 7
 ### Rancang Bangun Sistem Audit Keamanan untuk Infrastructure-as-Code dan Container
 
-### Resource: 
+### Resource:
 - [dependabot](https://github.com/dependabot)
 - [synk.io](https://snyk.io/)
 
