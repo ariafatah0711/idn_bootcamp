@@ -3,6 +3,8 @@
 - [dockerhub-cowrie/cowri](https://hub.docker.com/r/cowrie/cowrie)
 - [docs](https://docs.cowrie.org/en/latest/README.html)
 
+- port: 2222
+
 ```bash
 etc/cowrie.cfg - Cowrie’s configuration file.
 etc/cowrie.cfg.dist - default settings, don’t change this file

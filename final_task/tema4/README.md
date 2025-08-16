@@ -12,8 +12,3 @@ Membangun dan menerapkan sistem honeypot yang meniru layanan umum seperti SSH, H
 ---
 
 # testing
-- Cowrie → SSH/Telnet honeypot.
-- Dionaea → Malware capture untuk protokol SMB, HTTP, FTP, dll.
-- Glastopf → Web application honeypot.
-- Conpot → ICS/SCADA honeypot.
-- Kippo (lebih lama, diganti Cowrie).
