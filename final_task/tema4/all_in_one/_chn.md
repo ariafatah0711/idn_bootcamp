@@ -5,7 +5,7 @@
 ## setup docker
 ```bash
 git clone https://github.com/CommunityHoneyNetwork/CHN-Server
-docker-compose up -d
+docker compose up -d
 ```
 atau
 ```bash

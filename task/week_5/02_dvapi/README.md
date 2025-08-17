@@ -36,7 +36,7 @@ Metode pengujian mengacu pada standar **NIST SP 800-115**:
 ---
 
 ## 5. Langkah-Langkah Praktikum
-1. Menjalankan DVAPI menggunakan Docker-Compose: 
+1. Menjalankan DVAPI menggunakan docker compose:
    ```bash
    git clone https://github.com/payatu/DVAPI.git
    cd DVAPI
@@ -156,7 +156,7 @@ flag{aBus1ng_w34K_s3cR3TTT}
 ```
 
 ### 3. API3:2023 Broken Object Property Level Authorization
-**Broken Object Property Level Authorization** terjadi ketika aplikasi **tidak memvalidasi** dengan benar **hak akses pengguna** terhadap **properti atau atribut** tertentu dalam sebuah objek. 
+**Broken Object Property Level Authorization** terjadi ketika aplikasi **tidak memvalidasi** dengan benar **hak akses pengguna** terhadap **properti atau atribut** tertentu dalam sebuah objek.
 Artinya, **meskipun pengguna hanya seharusnya dapat mengatur properti tertentu** (misalnya username dan password), **mereka bisa menyisipkan properti lain** (misalnya score) dan sistem tetap menerima dan menyimpan data tersebut tanpa validasi.
 
 #### 1. Registrasi Pengguna Baru dengan Manipulasi Score

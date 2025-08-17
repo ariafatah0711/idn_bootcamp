@@ -5,9 +5,9 @@
 ```bash
 git clone https://github.com/mariocandela/beelzebub
 
-sed -i 's/"22:22"/"2223:22"/' docker-compose.yml
-docker-compose build
-docker-compose up -d
+sed -i 's/"22:22"/"2223:22"/' docker compose.yml
+docker compose build
+docker compose up -d
 ```
 
 ### with go

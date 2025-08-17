@@ -18,7 +18,7 @@ nohup python3 run.py &
 ### docker
 ```cd docker```
 ```bash
-docker-compose up --build -d
+docker compose up --build -d
 ```
 atau
 ```bash
