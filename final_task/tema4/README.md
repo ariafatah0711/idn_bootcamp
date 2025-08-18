@@ -44,4 +44,15 @@ Membangun dan menerapkan sistem honeypot yang meniru layanan umum seperti SSH, H
 [tanner](http://mushmush.org/),
 [wordpot](https://github.com/gbrindisi/wordpot)
 
+## test
+- cowrite => ssh
+- hellpot => http (bisa pake nginx proxy / apache proxy)
+- adbhoney => 5555
+- honeyaml => 8080 (buat api auth login)
+
+- mailoney => port 25 (snmp)
+
+- conpot => ics/scada (msh gak terlalu paham)
+- heralding => honeypot yang berfungsi ngambil cred yang mencoba login ke service tertentu
+
 # testing
