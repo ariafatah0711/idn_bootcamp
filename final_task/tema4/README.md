@@ -49,9 +49,12 @@ Membangun dan menerapkan sistem honeypot yang meniru layanan umum seperti SSH, H
 - hellpot => http (bisa pake nginx proxy / apache proxy)
 - adbhoney => 5555
 - honeyaml => 8080 (buat api auth login)
+- wordpot => 8080 wordpress (pake flask)
 
 - miniprint => port 9100 (mini printer)
 - mailoney => port 25 (snmp)
+- redishoneypot => port 6379 (redis)
+- sentrypot => sip port 5060, 8082 (sip)
 
 - conpot => ics/scada (msh gak terlalu paham)
 - heralding => honeypot yang berfungsi ngambil cred yang mencoba login ke service tertentu
