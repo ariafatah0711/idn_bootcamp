@@ -50,6 +50,7 @@ Membangun dan menerapkan sistem honeypot yang meniru layanan umum seperti SSH, H
 - adbhoney => 5555
 - honeyaml => 8080 (buat api auth login)
 
+- miniprint => port 9100 (mini printer)
 - mailoney => port 25 (snmp)
 
 - conpot => ics/scada (msh gak terlalu paham)
