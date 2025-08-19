@@ -12,7 +12,7 @@ Membangun dan menerapkan sistem honeypot yang meniru layanan umum seperti SSH, H
 ---
 
 ## Honeypots and Tools
-- T-Pot offers docker images for the following honeypots:<br>
+### T-Pot
 [adbhoney](https://github.com/huuck/ADBHoney),
 [beelzebub](https://github.com/mariocandela/beelzebub),
 [ciscoasa](https://github.com/Cymmetria/ciscoasa_honeypot),
@@ -44,19 +44,34 @@ Membangun dan menerapkan sistem honeypot yang meniru layanan umum seperti SSH, H
 [tanner](http://mushmush.org/),
 [wordpot](https://github.com/gbrindisi/wordpot)
 
-## test
-- cowrite => ssh
-- hellpot => http (bisa pake nginx proxy / apache proxy)
-- adbhoney => 5555
-- honeyaml => 8080 (buat api auth login)
-- wordpot => 8080 wordpress (pake flask)
+## tools
+### tools fokus ke 1 service
+- 1_cowrite → SSH (port 22 default)
+- 2_hellpot => HTTP (web, bisa lewat nginx/apache proxy)
+- 3_adbhoney => ADB (port 5555)
+- 14_honeyaml => HTTP API (auth/login, port 8080)
+- 21_wordpot => WordPress emulation (HTTP web app, Flask, port 8080 default)
+- 11_h0neytr4p => HTTP/Web (khusus untuk deteksi attacker, bukan sekedar proxy)
 
-- miniprint => port 9100 (mini printer)
-- mailoney => port 25 (snmp)
-- redishoneypot => port 6379 (redis)
-- sentrypot => sip port 5060, 8082 (sip)
+### tools yang punya banyak service
+- 2_conpot => ICS/SCADA (Modbus, S7, Bacnet, dll)
+- 13_heralding => Multi-service credential catcher (SSH, FTP, RDP, dll)
+- ddospot => DDoS amplification services (DNS, NTP, SNMP)
 
-- conpot => ics/scada (msh gak terlalu paham)
-- heralding => honeypot yang berfungsi ngambil cred yang mencoba login ke service tertentu
+### tools yang ke service tapi jarang digunain
+- 18_miniprint => Printer service (port 9100, JetDirect)
+- 16_mailoney => SMTP (port 25)
+- 19_redishoneypot => Redis (port 6379)
+- 20_sentrypot => SIP/VoIP (port 5060) + web admin (port 8082)
+- 5_ciscoasa => Cisco ASA Firewall (HTTP management interface)
+- 9_elasticpot => Elasticsearch (port 9200 default)
+- 8_dicompot => DICOM (untuk imaging medis, port 11112/104 default)
+- 17_medpot => HL7 / FHIR (untuk sistem medis, port bervariasi)
+- 22_snare_tanner => Web honeypot (HTTP frontend + backend)
+
+### tools yang gak terlalu saya pahami
+- 4_beelzebub => Multi-service (perlu eksplorasi lebih lanjut)
+- 10_go-pot => HTTP/Web service
+- 15_honeypots => HTTP/Web service
 
 # testing
