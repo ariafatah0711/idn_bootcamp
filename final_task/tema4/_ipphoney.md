@@ -12,11 +12,12 @@ python3 ipphoney.py
 
 ### setup docker (nyoba build docker image tapi loadingnya lama)
 ```bash
-docker build -t ipphoney .
-docker run -it --name ipphoney --net=host ipphoney
+# docker build -t ipphoney .
+# docker run -it --name ipphoney --net=host ipphoney
 ```
 
 ## testing
 ```bash
-
+nmap -p 631 localhost
+curl -v http://localhost:631/
 ```
